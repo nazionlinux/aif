@@ -105,9 +105,9 @@ _LvmCompBody="\nDone! All Logical Volumes have been created for the Volume Group
 _DevShowTitle=" Devices / Partitions "
 _DevShowOpt="List Devices (optional)"
 
-# Check Evo Requirements and Identify System Type
-_ChkEvoTitle=" Checking Evo Requirements "
-_ChkEvoBody="\nChecking installer has been run as root and that there is an active internet connection. Please wait...\n\n"
+# Check Requirements and Identify System Type
+_ChkTitle=" Rechecking Requirements "
+_ChkBody="\nRechecking installer has been run as root and that there is an active internet connection. Please wait...\n\n"
 
 _RtFailTitle=" Root Failure "
 _RtFailBody="\nThe installer must be run as root. Exiting.\n\n"
