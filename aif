@@ -105,37 +105,37 @@ select_language() {
  	"11" $"Portugese" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
-        "1") source /lution-ais-master/english.trans
+        "1") source /aif-master/english.trans
              CURR_LOCALE="en_US.UTF-8"
              ;;
-        "2") source /lution-ais-master/german.trans
+        "2") source /aif-master/german.trans
              CURR_LOCALE="de_DE.UTF-8" 
              ;;
-        "3") source /lution-ais-master/dutch.trans
+        "3") source /aif-master/dutch.trans
              CURR_LOCALE="nl_NL.UTF-8"
              ;;
-        "4") source /lution-ais-master/greek.trans
+        "4") source /aif-master/greek.trans
              CURR_LOCALE="el_GR.UTF-8"
              ;;
-        "5") source /lution-ais-master/norwegian.trans
+        "5") source /aif-master/norwegian.trans
              CURR_LOCALE="nl_NL.UTF-8"
              ;;
-        "6") source /lution-ais-master/italian.trans
+        "6") source /aif-master/italian.trans
              CURR_LOCALE="it_IT.UTF-8"
              ;;
-        "7") source /lution-ais-master/spanish.trans
+        "7") source /aif-master/spanish.trans
              CURR_LOCALE="es_ES.UTF-8"
              ;;
-        "8") source /lution-ais-master/russian.trans
+        "8") source /aif-master/russian.trans
              CURR_LOCALE="ru_RU.UTF-8"
              ;;
-        "9") source /lution-ais-master/polish.trans
+        "9") source /aif-master/polish.trans
              CURR_LOCALE="pl_PL.UTF-8"
              ;;
-       "10") source /lution-ais-master/hungarian.trans
+       "10") source /aif-master/hungarian.trans
              CURR_LOCALE="hu_HU.UTF-8"  
              ;;
-       "11") source /lution-ais-master/portuguese.trans
+       "11") source /aif-master/portuguese.trans
              CURR_LOCALE="pt_PT.UTF-8"
              ;;
           *) exit 0
