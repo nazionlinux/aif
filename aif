@@ -446,7 +446,7 @@ generate_fstab() {
 # Adapted from AIS.
 set_hostname() {
 
-   dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_HostNameTitle" --inputbox "$_HostNameBody" 0 0 "evo" 2>${ANSWER} || config_base_menu
+   dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_HostNameTitle" --inputbox "$_HostNameBody" 0 0 "arch" 2>${ANSWER} || config_base_menu
    HOST_NAME=$(cat ${ANSWER})
 
    echo "$HOST_NAME" > ${MOUNTPOINT}/etc/hostname 2>/tmp/.errlog
@@ -1652,20 +1652,20 @@ install_de_wm() {
    case $(cat ${ANSWER}) in
         "1") # Cinnamon
              clear
-             pacstrap ${MOUNTPOINT} cinnamon 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} cinnamon xterm 2>/tmp/.errlog
              ;;
         "2") # Enlightement
              clear
-             pacstrap ${MOUNTPOINT} enlightenment terminology polkit-gnome 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} enlightenment terminology polkit-gnome xterm 2>/tmp/.errlog
              ;;
         "3") # Gnome-Shell
              clear
-             pacstrap ${MOUNTPOINT} gnome-shell gdm 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} gnome-shell gdm xterm 2>/tmp/.errlog
              GNOME_INSTALLED=1
              ;;
         "4") # Gnome
              clear
-             pacstrap ${MOUNTPOINT} gnome rp-pppoe 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} gnome rp-pppoe xterm 2>/tmp/.errlog
 
              if [[ $NM_INSTALLED -eq 0 ]]; then         
                 arch_chroot "systemctl enable NetworkManager.service && systemctl enable NetworkManager-dispatcher.service" 2>>/tmp/.errlog
@@ -1676,7 +1676,7 @@ install_de_wm() {
              ;;            
         "5") # Gnome + Extras
              clear
-             pacstrap ${MOUNTPOINT} gnome gnome-extra rp-pppoe 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} gnome gnome-extra rp-pppoe xterm 2>/tmp/.errlog
 
              if [[ $NM_INSTALLED -eq 0 ]]; then         
                 arch_chroot "systemctl enable NetworkManager.service && systemctl enable NetworkManager-dispatcher.service" 2>>/tmp/.errlog
@@ -1687,12 +1687,11 @@ install_de_wm() {
              ;;
         "6") # KDE5 BASE
              clear
-             pacstrap ${MOUNTPOINT} plasma-desktop xdg-utils rp-pppoe 2>/tmp/.errlog
-             KDE_INSTALLED=1
+             pacstrap ${MOUNTPOINT} plasma-desktop xdg-utils rp-pppoe xterm 2>/tmp/.errlog
              ;;
         "7") # KDE5 
              clear
-             pacstrap ${MOUNTPOINT} plasma xdg-user-dirs xdg-utils rp-pppoe 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} plasma xdg-user-dirs xdg-utils rp-pppoe xterm 2>/tmp/.errlog
 
              if [[ $NM_INSTALLED -eq 0 ]]; then          
                 arch_chroot "systemctl enable NetworkManager.service && systemctl enable NetworkManager-dispatcher.service" 2>>/tmp/.errlog
@@ -1703,49 +1702,49 @@ install_de_wm() {
              ;;
          "8") # LXDE
               clear
-              pacstrap ${MOUNTPOINT} lxde 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} lxde xterm 2>/tmp/.errlog
               LXDE_INSTALLED=1
              ;;
          "9") # LXQT
               clear
-              pacstrap ${MOUNTPOINT} lxqt oxygen-icons 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} lxqt oxygen-icons xterm 2>/tmp/.errlog
               LXQT_INSTALLED=1
               ;;
          "10") # MATE
               clear
-              pacstrap ${MOUNTPOINT} mate 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} mate xterm 2>/tmp/.errlog
              ;;
         "11") # MATE + Extras
                clear
-               pacstrap ${MOUNTPOINT} mate mate-extra 2>/tmp/.errlog
+               pacstrap ${MOUNTPOINT} mate mate-extra xterm 2>/tmp/.errlog
              ;;                 
         "12") # Xfce
               clear
-              pacstrap ${MOUNTPOINT} xfce4 polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} xfce4 polkit-gnome xterm 2>/tmp/.errlog
              ;;            
         "13") # Xfce + Extras
               clear
-              pacstrap ${MOUNTPOINT} xfce4 xfce4-goodies polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} xfce4 xfce4-goodies polkit-gnome xterm 2>/tmp/.errlog
              ;;
         "14") # Awesome
               clear
-              pacstrap ${MOUNTPOINT} awesome vicious polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} awesome vicious polkit-gnome xterm 2>/tmp/.errlog
              ;;
         "15") #Fluxbox
               clear 
-              pacstrap ${MOUNTPOINT} fluxbox fbnews fluxter polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} fluxbox fbnews fluxter polkit-gnome xterm 2>/tmp/.errlog
              ;; 
         "16") #i3
               clear
-              pacstrap ${MOUNTPOINT} i3-wm i3lock i3status dmenu polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} i3-wm i3lock i3status dmenu polkit-gnome xterm 2>/tmp/.errlog
              ;; 
         "17") #IceWM
               clear
-              pacstrap ${MOUNTPOINT} icewm icewm-themes polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} icewm icewm-themes polkit-gnome xterm 2>/tmp/.errlog
              ;; 
         "18") #Openbox
               clear
-              pacstrap ${MOUNTPOINT} openbox openbox-themes polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} openbox openbox-themes polkit-gnome xterm 2>/tmp/.errlog
              ;; 
         "19") #Openbox (pre-configured)
               
@@ -1769,7 +1768,7 @@ install_de_wm() {
 			  
 			  # Pick Internet Browser
 			  dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Browser " \
-			  --menu "" 11 0 5 \
+			  --menu "" 0 0 5 \
 			  "1" $"Chromium" \
 			  "2" $"FireFox" \
 			  "3" $"Midori" \
@@ -1792,7 +1791,7 @@ install_de_wm() {
 			  esac
 			  			  
               clear
-              pacstrap ${MOUNTPOINT} openbox oblogout openbox-themes numix-themes xcursor-vanilla-dmz tint2 conky libgnomeui obconf lxappearance-obconf lxinput lxrandr lxterminal volumeicon gnome-alsamixer dmenu xlockmore flashplugin polkit-gnome ${OPENBOXFM} ${OPENBOXIB} 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} openbox oblogout openbox-themes numix-themes xcursor-vanilla-dmz tint2 conky libgnomeui obconf lxappearance-obconf lxinput lxrandr lxterminal volumeicon gnome-alsamixer dmenu xlockmore flashplugin polkit-gnome xterm ${OPENBOXFM} ${OPENBOXIB} 2>/tmp/.errlog
               
               cp -f /aif-master/openbox-full/oblogout.conf ${MOUNTPOINT}/etc
               cp -f /aif-master/openbox-full/.gtkrc-2.0 ${MOUNTPOINT}/root
@@ -1832,11 +1831,11 @@ install_de_wm() {
              ;;
         "20") #PekWM
               clear
-              pacstrap ${MOUNTPOINT} pekwm pekwm-themes polkit-gnome 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} pekwm pekwm-themes polkit-gnome xterm 2>/tmp/.errlog
              ;;
         "21") #WindowMaker
              clear
-             pacstrap ${MOUNTPOINT} windowmaker polkit-gnome 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} windowmaker polkit-gnome xterm 2>/tmp/.errlog
              ;;        
           *) install_desktop_menu
              ;;
@@ -1850,7 +1849,7 @@ install_de_wm() {
        
        if [[ $? -eq 0 ]]; then
           clear
-          pacstrap ${MOUNTPOINT} xterm gksu gnome-keyring polkit xdg-user-dirs xdg-utils gamin gvfs gvfs-afc gvfs-smb ttf-dejavu gnome-icon-theme python2-xdg bash-completion ntfs-3g 2>/tmp/.errlog
+          pacstrap ${MOUNTPOINT} gksu gnome-keyring polkit xdg-user-dirs xdg-utils gamin gvfs gvfs-afc gvfs-smb ttf-dejavu gnome-icon-theme python2-xdg bash-completion ntfs-3g 2>/tmp/.errlog
           check_for_error
        fi
        
@@ -1908,45 +1907,53 @@ dm_menu(){
 	                      arch_chroot "chown -R ${i}:users /home/${i}"
 	                   fi
                        echo 'exec $1' >> ${MOUNTPOINT}/home/$i/.xinitrc
-                   done
-                
+                   done    
                    ;;                
                 *) install_desktop_menu
                    ;;
-                esac      
-
+                esac
 }
 
  if [[ $DM_INSTALLED -eq 0 ]]; then
-	     # Gnome, without KDE or LXQT, which requires SDDM
-	     if [[ $GNOME_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 0 ]] && [[ $LXQT_INSTALLED -eq 0 ]]; then
+	     # Gnome without KDE
+	     if [[ $GNOME_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 0 ]]; then
 	        arch_chroot "systemctl enable gdm.service" >/dev/null 2>/tmp/.errlog
-	        check_for_error
-            dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_DmGdmTitle" --msgbox "$_DmGdmBody" 0 0
             DM="GDM"
 
-         # Gnome, with KDE and/or LXQT
-       elif [[ $GNOME_INSTALLED -eq 1 ]] && ([[ $KDE_INSTALLED -eq 1 ]] || [[ $LXQT_INSTALLED -eq 1 ]]); then   
-               dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Enable Gnome Display Manager?" \
-               --yesno "Gnome has been installed with its native display manager, GDM. KDE and/or LXQT have also been installed, for which SDDM is recommended.\n\nEnable GDM? If 'No', a menu of available display managers will be shown." 0 0
- 	           if [[ $? -eq 0 ]]; then
-                  arch_chroot "systemctl enable gdm.service" >/dev/null 2>/tmp/.errlog
-                  DM="GDM"
-               else
-                dm_menu
-               fi
+         # Gnome with KDE
+         elif [[ $GNOME_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 1 ]]; then   
+             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_DmChTitle" \
+               --menu "$_DmChBody" 12 45 2 \
+ 	           "1" $"GDM  (Gnome)" \
+	           "2" $"SDDM (KDE)" 2>${ANSWER}	
+	
+	          case $(cat ${ANSWER}) in
+              "1") arch_chroot "systemctl enable gdm.service" >/dev/null 2>/tmp/.errlog
+                   DM="GDM"
+                   ;;
+              "2") arch_chroot "sddm --example-config > /etc/sddm.conf"
+                   arch_chroot "systemctl enable sddm.service" >/dev/null 2>>/tmp/.errlog
+                   DM="SDDM"
+                   ;;
+                *) install_desktop_menu
+                ;;
+              esac    
+              
+         # KDE without Gnome      
+        elif [[ $KDE_INSTALLED -eq 1 ]] && [[ $GNOME_INSTALLED -eq 0 ]]; then
+	        arch_chroot "sddm --example-config > /etc/sddm.conf"
+            arch_chroot "systemctl enable sddm.service" >/dev/null 2>>/tmp/.errlog
+	        DM="SDDM"
             
-         # LXDM, without KDE or LXQT   
-       elif [[ $LXDM_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 0 ]] && [[ $LXQT_INSTALLED -eq 0 ]] && [[ $GNOME_INSTALLED -eq 0 ]]; then 
+         # LXDM, without KDE or Gnome 
+         elif [[ $LXDM_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 0 ]] && [[ $GNOME_INSTALLED -eq 0 ]]; then 
             arch_chroot "systemctl enable lxdm.service" >/dev/null 2>/tmp/.errlog
-            check_for_error
-            dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_DmLxdmTitle" --msgbox "$_DmLxdmBody" 0 0
             DM="LXDM"
- 
+
          # Otherwise, select a DM	   
-        else 
+         else 
            dm_menu      
-	    fi
+	     fi
 	    
 	    # Check installation success, inform user, and flag DM_INSTALLED so it cannot be run again
 	    check_for_error
@@ -1964,11 +1971,12 @@ install_nm() {
    # Check to see if a NM has already been installed and enabled
    if [[ $NM_INSTALLED -eq 0 ]]; then
       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_InstNMTitle" \
-      --menu "$_InstNMBody" 0 0 4 \
+      --menu "$_InstNMBody" 0 0 5 \
  	  "1" $"Connman (CLI)" \
 	  "2" $"dhcpcd  (CLI)" \
-	  "3" $"Network Manager (GUI)" \
-	  "4" $"WICD (GUI)" 2>${ANSWER}	
+	  "3" $"netctl (CLI)" \
+	  "4" $"Network Manager (GUI)" \
+	  "5" $"WICD (GUI)" 2>${ANSWER}	
 	
 	  case $(cat ${ANSWER}) in
       "1") # connman
@@ -1980,12 +1988,16 @@ install_nm() {
            clear
            arch_chroot "systemctl enable dhcpcd.service" 2>/tmp/.errlog
            ;;
-      "3") # Network Manager
+      "3") # netctl
+           clear
+           arch_chroot "systemctl enable netctl.service" 2>/tmp/.errlog
+           ;;
+      "4") # Network Manager
            clear
            pacstrap ${MOUNTPOINT} networkmanager network-manager-applet rp-pppoe 2>/tmp/.errlog
            arch_chroot "systemctl enable NetworkManager.service && systemctl enable NetworkManager-dispatcher.service" 2>>/tmp/.errlog
            ;;
-      "4") # WICD
+      "5") # WICD
            clear
            pacstrap ${MOUNTPOINT} wicd-gtk 2>/tmp/.errlog
            arch_chroot "systemctl enable wicd.service" 2>>/tmp/.errlog
