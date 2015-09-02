@@ -613,6 +613,10 @@ select_grub_device() {
 # Originally adapted from AIS.
 create_partitions(){
 
+guided_partition(){
+create_partitions
+}
+
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_PartToolTitle" \
     --menu "$_PartToolBody" 0 0 6 \
     "1" $"Guided Partitioning (BIOS & UEFI)" \
@@ -623,7 +627,7 @@ create_partitions(){
 	"6" $"GDisk  (UEFI/GPT)" 2>${ANSWER}	
 
     case $(cat ${ANSWER}) in
-        "1") guided_format()
+        "1") guided_format
              ;;
         "2") parted ${DEVICE}
              ;;
@@ -1706,6 +1710,7 @@ install_de_wm() {
               clear
               pacstrap ${MOUNTPOINT} lxqt oxygen-icons 2>/tmp/.errlog
               LXQT_INSTALLED=1
+              ;;
          "10") # MATE
               clear
               pacstrap ${MOUNTPOINT} mate 2>/tmp/.errlog
