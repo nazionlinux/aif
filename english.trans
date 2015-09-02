@@ -347,7 +347,7 @@ _GCDetBody2="-Select 'Yes' to install its OPEN-SOURCE driver.\n\n-Select 'No' to
 
 #  Install DE Info
 _DEInfoTitle=" Install Desktop Environments "
-_DEInfoBody="\nThis option can be repeated to install multiple environments.\n\nGnome, KDE, and LXDE come with a display manager.\n\nCinnamon, Gnome and KDE come with a Network Manager.\n\n"
+_DEInfoBody="\nThis option can be repeated to install multiple environments.\n\nGnome, KDE (full), and LXDE come with a display manager.\n\nCinnamon, Gnome and KDE come with a Network Manager.\n\n"
 
 # Install DE Menu
 _InstDETitle=" Install Desktop Environments  "
@@ -355,27 +355,15 @@ _InstDEBody="\nDesktop Environments are listed first, and may have multiple down
 
 # Install Common Packages
 _InstComTitle=" Install Common Packages? "
-_InstComBody="\nSome environments require common files to be installed, particularly for permissions, creation of home folders, and file manager functionality.\n\nPackages include: xterm, xdg-user-dirs, gksu, gnome-keyring, polkit, gvfs, and the gnome-icon-theme, etc. Those installing the full KDE desktop alone will not need to install these.\n\nInstall these packages? This option will only be presented ONCE.\n\n"
+_InstComBody="\nSome environments require common files to be installed, particularly for permissions, creation of home folders, and file manager functionality.\n\nPackages include: xdg-user-dirs, gksu, gnome-keyring, polkit, gvfs, and the gnome-icon-theme, etc. Those installing the full KDE desktop alone will not need to install these.\n\nInstall these packages? This option will only be presented ONCE.\n\n"
 
-# KDM
-_DmKdeTitle=" KDM Enabled "
-_DmKdeBody="\nAs KDE has been installed, its native display manager - KDM - has now been enabled.\n\n"
-
-# GDM
-_DmGdmTitle=" GDM Enabled "
-_DmGdmBody="\nAs Gnome has been installed, its native display manager - GDM - has now been enabled.\n\n"
-
-# KDM or GDM Choice Made
+# DM Enabled
 _DmDoneTitle="Enabled "
 _DMDoneBody="has been enabled.\n\n"
 
-# LXDM
-_DmLxdmTitle=" LXDM Enabled "
-_DmLxdmBody="\nAs LXDE has been installed, its native display manager - LXDM - has now been enabled.\n\n"
-
 # LXDM or LightDM
 _DmChoiceTitle=" Choose Display Manager "
-_DmChoiceBody="\nPlease choose your display manager. SDDM is recommended for LXQT and KDE.\n"
+_DmChoiceBody="\nPlease choose your display manager.\n"
 
 # DM Already Installed
 _DmInstTitle=" Display Manager Installed "
