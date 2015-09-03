@@ -623,7 +623,8 @@ auto_partition(){
 	
 	if [[ $? -eq 0 ]]; then
 		parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
-		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>>/tmp/.errlog
+		parted -s ${DEVICE} mkpart primary ext3 1MiB 50MiB 2>>/tmp/.errlog
+		parted -s ${DEVICE} mkpart primary ext3 50MiB 100% 2>>/tmp/.errlog		
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
 		check_for_error
         echo -e "Partition Scheme:\n" > /tmp/.devlist
