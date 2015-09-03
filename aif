@@ -628,7 +628,7 @@ auto_partition(){
 		check_for_error
         echo -e "Partition Scheme:\n" > /tmp/.devlist
         lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE >> /tmp/.devlist
-        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition Complete " --textbox /tmp/.devlist 0 0
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Completed Partitioning " --textbox /tmp/.devlist 0 0
     else
         create_partitions
     fi
@@ -644,7 +644,7 @@ auto_partition(){
 		parted -s ${DEVICE} mkpart primary ext3 513MiB 100% 2>>/tmp/.errlog
 		echo -e "Partition Scheme:\n" > /tmp/.devlist
         lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE >> /tmp/.devlist
-        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition Complete " --textbox /tmp/.devlist 0 0
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Completed Partitioning " --textbox /tmp/.devlist 0 0
     else
 		create_partitions
     fi
