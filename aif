@@ -613,13 +613,49 @@ select_grub_device() {
 # Originally adapted from AIS.
 create_partitions(){
 
-guided_partition(){
-create_partitions
+# This only creates the minimum number of partition(s) necessary. Users wishing for other schemes will
+# have to learn to use a partitioning application.
+auto_partition(){
+
+ # Autopartition for BIOS systems
+ if [[ $UEFI -eq 0 ]]; then
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Auto-Partition (BIOS/MBR)" --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
+	
+	if [[ $? -eq 0 ]]; then
+		parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
+		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>>/tmp/.errlog
+		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
+		check_for_error
+        echo -e "Partition Scheme:\n" > /tmp/.devlist
+        lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE >> /tmp/.devlist
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Auto-Partition Complete" --textbox /tmp/.devlist 0 0
+    else
+        create_partitions
+    fi
+ 
+ # Autopartition for UEFI systems   
+ else
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA 512MB UEFI boot partition will first be created, followed by a second system partition using all remaining space. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
+	
+	if [[ $? -eq 0 ]]; then
+		parted -s ${DEVICE} mklabel gpt 2>/tmp/.errlog
+		parted -s ${DEVICE} mkpart ESP fat32 1MiB 513MiB 2>>/tmp/.errlog
+		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
+		parted -s ${DEVICE} mkpart primary ext3 513MiB 100% 2>>/tmp/.errlog
+		echo -e "Partition Scheme:\n" > /tmp/.devlist
+        lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE >> /tmp/.devlist
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition Complete " --textbox /tmp/.devlist 0 0
+    else
+		create_partitions
+    fi
+    
+ fi
+
 }
 
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_PartToolTitle" \
     --menu "$_PartToolBody" 0 0 6 \
-    "1" $"Guided Partitioning (BIOS & UEFI)" \
+    "1" $"Auto Partition (BIOS & UEFI)" \
  	"2" $"Parted (BIOS & UEFI)" \
 	"3" $"CFDisk (BIOS/MBR)" \
 	"4" $"CGDisk (UEFI/GPT)" \
@@ -627,7 +663,7 @@ create_partitions
 	"6" $"GDisk  (UEFI/GPT)" 2>${ANSWER}	
 
     case $(cat ${ANSWER}) in
-        "1") guided_format
+        "1") auto_partition
              ;;
         "2") parted ${DEVICE}
              ;;
