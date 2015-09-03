@@ -220,7 +220,7 @@ _DevSelGrubTitle=" Select Grub Device "
 
 # Partitioning Tool
 _PartToolTitle=" Partitioning Tool "
-_PartToolBody="\nGParted is a recommended user-friendly graphical tool that supports both BIOS and UEFI systems.\n\nDO NOT select a UEFI/GPT-only partitioning tool for a BIOS/MBR system as this could cause serious problems, including an unbootable installation."
+_PartToolBody="\nAn Auto-Partition option is available for beginners.\n\nOtherwise, DO NOT select a UEFI/GPT-only partitioning tool for a BIOS/MBR system as this could cause serious problems, including an unbootable installation."
 
 # UEFI Partitioning Error
 _UefiPartErrTitle=" UEFI Partitioning Error " 

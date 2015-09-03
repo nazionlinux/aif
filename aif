@@ -619,7 +619,7 @@ auto_partition(){
 
  # Autopartition for BIOS systems
  if [[ $UEFI -eq 0 ]]; then
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Auto-Partition (BIOS/MBR)" --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
 	
 	if [[ $? -eq 0 ]]; then
 		parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
@@ -628,7 +628,7 @@ auto_partition(){
 		check_for_error
         echo -e "Partition Scheme:\n" > /tmp/.devlist
         lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE >> /tmp/.devlist
-        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Auto-Partition Complete" --textbox /tmp/.devlist 0 0
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition Complete " --textbox /tmp/.devlist 0 0
     else
         create_partitions
     fi
