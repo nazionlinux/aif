@@ -1608,6 +1608,7 @@ install_gc() {
                # Load modules and enable vboxservice whatever the kernel
                arch_chroot "modprobe -a vboxguest vboxsf vboxvideo"  
                arch_chroot "systemctl enable vboxservice"
+               echo -e "vboxguest\nvboxsf\nvboxvideo" > ${MOUNTPOINT}/etc/modules-load.d/virtualbox.conf
                ;;
      "VMWare") pacstrap ${MOUNTPOINT} xf86-video-vmware xf86-input-vmmouse 2>/tmp/.errlog
                ;;
