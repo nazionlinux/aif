@@ -624,9 +624,9 @@ delete_partitions(){
  for i in ${parts_to_del}; do
      parted -s ${DEVICE} rm ${i} 2>/tmp/.errlog
      check_for_error
-     lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
-     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "" --textbox /tmp/.devlist 0 0
  done
+     lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
+     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "TEST" --textbox /tmp/.devlist 0 0
 }
 
  # Autopartition for BIOS systems
