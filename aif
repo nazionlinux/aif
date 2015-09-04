@@ -91,18 +91,18 @@ FILE2=""					# Which second file is to be opened?
 # Add locale on-the-fly and sets source translation file for installer
 select_language() {
 
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / nγλώσσα / språk / lingua / idioma / язык / język / nyelv / língua" 22 30 11 \
- 	"1" $"English" \
- 	"2" $"Deutsch" \
- 	"3" $"Nederlands" \
- 	"4" $"Eλληνικά" \
- 	"5" $"Norsk" \
- 	"6" $"Italiano" \
- 	"7" $"Español" \
- 	"8" $"Русский" \
- 	"9" $"Polski" \
- 	"10" $"Magyar" \
- 	"11" $"Portugese" 2>${ANSWER}
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / nγλώσσα / språk / lingua / idioma / язык / język / nyelv / língua" 0 0 4 \
+ 	"1" $"English" 2>${ANSWER}
+# 	"2" $"Deutsch" \
+# 	"3" $"Nederlands" \
+# 	"4" $"Eλληνικά" \
+# 	"5" $"Norsk" \
+# 	"6" $"Italiano" \
+# 	"7" $"Español" \
+# 	"8" $"Русский" \
+# 	"9" $"Polski" \
+# 	"10" $"Magyar" \
+# 	"11" $"Portugese" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
         "1") source /aif-master/english.trans
@@ -153,7 +153,7 @@ select_language() {
 
 # Check user is root, and that there is an active internet connection
 # Seperated the checks into seperate "if" statements for readability.
-check_evo_requirements() {
+check_requirements() {
 	
   dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ChkTitle" --infobox "$_ChkBody" 0 0
   sleep 2
@@ -1691,7 +1691,7 @@ install_de_wm() {
    fi
    
 	dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_InstDETitle" \
-    --menu "$_InstDEBody" 0 0 8 \
+    --menu "$_InstDEBody" 0 0 11 \
  	"1" $"Cinnamon" \
 	"2" $"Enlightenment" \
 	"3" $"Gnome-Shell (minimal)" \
@@ -2568,7 +2568,7 @@ main_menu_online() {
 ######################################################################
 id_system
 select_language
-check_evo_requirements
+check_requirements
 greeting
 
 	while true; do
