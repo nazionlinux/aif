@@ -634,6 +634,7 @@ delete_partitions(){
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
 	
 	if [[ $? -eq 0 ]]; then
+	    delete_partitions
 		parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
 		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>>/tmp/.errlog	
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
@@ -650,6 +651,7 @@ delete_partitions(){
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA 512MB UEFI boot partition will first be created, followed by a second system partition using all remaining space. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
 	
 	if [[ $? -eq 0 ]]; then
+	    delete_partitions
 		parted -s ${DEVICE} mklabel gpt 2>/tmp/.errlog
 		parted -s ${DEVICE} mkpart ESP fat32 1MiB 513MiB 2>>/tmp/.errlog
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
