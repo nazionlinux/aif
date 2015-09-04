@@ -80,7 +80,7 @@ CURR_LOCALE="en_US.UTF-8"   # Default Locale
 
 # Edit Files
 FILE=""                     # Which file is to be opened?
-FILE2=""                    # Some configs use two files. Not using an array.
+FILE2=""					# Which second file is to be opened?
 
 ######################################################################
 ##																	##
@@ -1639,7 +1639,7 @@ install_gc() {
  # Where NVIDIA has been installed allow user to check and amend the file
  if [[ $NVIDIA_INST == 1 ]]; then
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_NvidiaConfTitle" --msgbox "$_NvidiaConfBody" 0 0
-    leafpad ${MOUNTPOINT}/etc/X11/xorg.conf.d/20-nvidia.conf >/dev/null 2>&1
+    nano ${MOUNTPOINT}/etc/X11/xorg.conf.d/20-nvidia.conf >/dev/null 2>&1
  fi
 
 }
@@ -2401,13 +2401,13 @@ edit_configs() {
 	fi
 
    dialog --default-item ${HIGHLIGHT_SUB} --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_SeeConfOptTitle" --menu "$_SeeConfOptBody" 0 0 10 \
-   "1" "vconsole.conf" \
-   "2" "locale.conf" \
-   "3" "hostname & hosts" \
-   "4" "sudoers" \
-   "5" "mkinitcpio.conf" \
-   "6" ".xinitrc" \
-   "7" "fstab" \
+   "1" "/etc/vconsole.conf" \
+   "2" "/etc/locale.conf" \
+   "3" "/etc/hostname" \
+   "4" "/etc/hosts"
+   "5" "/etc/sudoers" \
+   "6" "/etc/mkinitcpio.conf" \
+   "7" "/etc/fstab" \
    "8" "$BOOTLOADER" \
    "9" "$DM" \
    "10" "$_Back" 2>${ANSWER}
@@ -2419,22 +2419,12 @@ edit_configs() {
         "2") FILE="${MOUNTPOINT}/etc/locale.conf" 
              ;;
         "3") FILE="${MOUNTPOINT}/etc/hostname"
-             FILE2="${MOUNTPOINT}/etc/hosts"
              ;;
-        "4") FILE="${MOUNTPOINT}/etc/sudoers"
+        "4") FILE="${MOUNTPOINT}/etc/hosts"
              ;;
-        "5") FILE="${MOUNTPOINT}/etc/mkinitcpio.conf"
+        "5") FILE="${MOUNTPOINT}/etc/sudoers"
              ;;
-        "6")  user_list=""
-              user_list=$(ls ${MOUNTPOINT}/home/ | sed "s/lost+found//")
-				   for i in ${user_list[@]}; do
-                       if [[ -e ${MOUNTPOINT}/home/$i/.xinitrc ]]; then
-                          gksu leafpad ${MOUNTPOINT}/home/$i/.xinitrc >/dev/null 2>&1
-	                   else
-	                      dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$__SeeConfErrTitle" --msgbox "$_SeeConfErrBody1" 0 0
-	                      break;
-                       fi
-                   done
+        "6") FILE="${MOUNTPOINT}/etc/mkinitcpio.conf"
              ;;
         "7") FILE="${MOUNTPOINT}/etc/fstab"
              ;;
@@ -2467,18 +2457,14 @@ edit_configs() {
             ;;
      esac
      
-     # There could be more than one .xinitrc file, so do not open it here.
-     if [[ $HIGHLIGHT_SUB != 6 ]]; then
-        
+        # open file(s) with nano   
         if [[ -e $FILE ]] && [[ $FILE2 != "" ]]; then
-           leafpad $FILE & leafpad $FILE2
+           nano $FILE $FILE2
         elif [[ -e $FILE ]]; then 
-           leafpad $FILE
+           nano $FILE
         else
            dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_SeeConfErrTitle" --msgbox "$_SeeConfErrBody1" 0 0
         fi
-        
-     fi
      
      edit_configs
 }
