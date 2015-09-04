@@ -617,6 +617,18 @@ create_partitions(){
 # have to learn to use a partitioning application.
 auto_partition(){
 
+delete_partitions(){
+ lsblk -ln ${DEVICE} | awk '{print $1}' | grep 'sd\|hd\|vd' | grep [1-9] > /tmp/.partsdel
+ parts_to_del=$(wc -l /tmp/.partsdel | awk '{print $1}')
+ 
+ for i in ${parts_to_del}; do
+     parted -s ${DEVICE} rm ${i} 2>/tmp/.errlog
+     check_for_error
+     lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
+     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "" --textbox /tmp/.devlist 0 0
+ done
+}
+
  # Autopartition for BIOS systems
  if [[ $UEFI -eq 0 ]]; then
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
