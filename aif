@@ -2404,7 +2404,7 @@ edit_configs() {
    "1" "/etc/vconsole.conf" \
    "2" "/etc/locale.conf" \
    "3" "/etc/hostname" \
-   "4" "/etc/hosts"
+   "4" "/etc/hosts" \
    "5" "/etc/sudoers" \
    "6" "/etc/mkinitcpio.conf" \
    "7" "/etc/fstab" \
