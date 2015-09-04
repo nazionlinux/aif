@@ -624,7 +624,7 @@ delete_partitions(){
  while [[ $parts_to_del -gt 0 ]]; do
        parted -s ${DEVICE} rm $parts_to_del 2>/tmp/.errlog
        check_for_error
-       $parts_to_del=$(( parts_to_del - 1 ))
+       parts_to_del=$(( parts_to_del - 1 ))
  done
  
      lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
