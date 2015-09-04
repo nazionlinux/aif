@@ -626,9 +626,7 @@ delete_partitions(){
        check_for_error
        parts_to_del=$(( parts_to_del - 1 ))
  done
- 
-     lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
-     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "TEST" --textbox /tmp/.devlist 0 0
+
 }
 
  # Autopartition for BIOS systems
