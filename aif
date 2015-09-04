@@ -621,10 +621,12 @@ delete_partitions(){
  lsblk -ln ${DEVICE} | awk '{print $1}' | grep 'sd\|hd\|vd' | grep [1-9] > /tmp/.partsdel
  parts_to_del=$(wc -l /tmp/.partsdel | awk '{print $1}')
  
- for i in ${parts_to_del}; do
-     parted -s ${DEVICE} rm ${i} 2>/tmp/.errlog
-     check_for_error
+ while [[ $parts_to_del -gt 0 ]]; do
+       parted -s ${DEVICE} rm $parts_to_del 2>/tmp/.errlog
+       check_for_error
+       $parts_to_del=$(( parts_to_del - 1 ))
  done
+ 
      lsblk ${DEVICE} -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
      dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "TEST" --textbox /tmp/.devlist 0 0
 }
