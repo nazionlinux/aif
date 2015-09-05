@@ -303,14 +303,14 @@ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorlistTitle" \
 	"1" "$_MirrorbyCountry" \
 	"2" "$_MirrorEdit" \
 	"3" "$_MirrorRank" \
-	"4" "_Back" 2>${ANSWER}	
+	"4" "$_Back" 2>${ANSWER}	
 
     case $(cat ${ANSWER}) in
         "1") mirror_by_country
              ;;
         "2") nano /etc/pacman.d/mirrorlist
              ;;
-        "3") clear
+        "3") dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorRankTitle" --infobox "$_MirrorRankBody" 0 0
              cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
              rankmirrors -n 5 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist 2>/tmp/.errlog
              check_for_error
