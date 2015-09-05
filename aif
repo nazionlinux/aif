@@ -639,22 +639,27 @@ auto_partition(){
 # Hooray for tac! Deleting partitions in reverse order deals with logical partitions easily.
 delete_partitions(){
 	
-	parted -s /dev/sda print|awk '/^ / {print $1}' > /tmp/.del_parts
+	parted -s ${DEVICE} print | awk '/^ / {print $1}' > /tmp/.del_parts
 	
 	for del_part in $(tac /tmp/.del_parts); do
 		parted -s ${DEVICE} rm ${del_part} 2>/tmp/.errlog
 		check_for_error
 	done
 
+
 }
 
  # Autopartition for BIOS systems
+ 
+ # Identify the partition table
+ part_table=$(parted -s ${DEVICE} print | grep -i 'partition table' | awk '{print $3}')
+ 
  if [[ $UEFI -eq 0 ]]; then
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
 	
 	if [[ $? -eq 0 ]]; then
 	    delete_partitions
-	    if [[ $(parted -s ${DEVICE} print | grep -i 'msdos') -eq "" ]]; then
+	    if [[ $part_table != "msdos" ]]; then
 		   parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
 		else
 		   echo "yes, it is msdos"
@@ -676,7 +681,7 @@ delete_partitions(){
 	
 	if [[ $? -eq 0 ]]; then
 	    delete_partitions
-	    if [[ $(parted -s ${DEVICE} print | grep -i 'gpt') -eq "" ]]; then
+	    if [[ $part_table != "gpt" ]]; then
 		   parted -s ${DEVICE} mklabel gpt 2>/tmp/.errlog
 		fi
 		parted -s ${DEVICE} mkpart ESP fat32 1MiB 513MiB 2>>/tmp/.errlog
