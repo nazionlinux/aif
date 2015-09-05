@@ -769,7 +769,7 @@ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_FSTitle" \
   
 mount_partitions() {
 
-# function created to save repitition of code. Checks and determines if standard partition or LVM LV,
+# function created to save repetition of code. Checks and determines if standard partition or LVM LV,
 # and sets the prefix accordingly.
 set_mount_type() {
 
