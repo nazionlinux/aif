@@ -1681,7 +1681,7 @@ install_gc() {
  # Where NVIDIA has been installed allow user to check and amend the file
  if [[ $NVIDIA_INST == 1 ]]; then
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_NvidiaConfTitle" --msgbox "$_NvidiaConfBody" 0 0
-    nano ${MOUNTPOINT}/etc/X11/xorg.conf.d/20-nvidia.conf >/dev/null 2>&1
+    nano ${MOUNTPOINT}/etc/X11/xorg.conf.d/20-nvidia.conf
  fi
 
 }
@@ -2050,12 +2050,11 @@ install_nm() {
    # Check to see if a NM has already been installed and enabled
    if [[ $NM_INSTALLED -eq 0 ]]; then
       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_InstNMTitle" \
-      --menu "$_InstNMBody" 0 0 5 \
+      --menu "$_InstNMBody" 0 0 4 \
  	  "1" $"Connman (CLI)" \
 	  "2" $"dhcpcd  (CLI)" \
-	  "3" $"netctl (CLI)" \
-	  "4" $"Network Manager (GUI)" \
-	  "5" $"WICD (GUI)" 2>${ANSWER}	
+	  "3" $"Network Manager (GUI)" \
+	  "4" $"WICD (GUI)" 2>${ANSWER}	
 	
 	  case $(cat ${ANSWER}) in
       "1") # connman
@@ -2067,16 +2066,12 @@ install_nm() {
            clear
            arch_chroot "systemctl enable dhcpcd.service" 2>/tmp/.errlog
            ;;
-      "3") # netctl
-           clear
-           arch_chroot "systemctl enable netctl.service" 2>/tmp/.errlog
-           ;;
-      "4") # Network Manager
+      "3") # Network Manager
            clear
            pacstrap ${MOUNTPOINT} networkmanager network-manager-applet rp-pppoe 2>/tmp/.errlog
            arch_chroot "systemctl enable NetworkManager.service && systemctl enable NetworkManager-dispatcher.service" 2>>/tmp/.errlog
            ;;
-      "5") # WICD
+      "4") # WICD
            clear
            pacstrap ${MOUNTPOINT} wicd-gtk 2>/tmp/.errlog
            arch_chroot "systemctl enable wicd.service" 2>>/tmp/.errlog

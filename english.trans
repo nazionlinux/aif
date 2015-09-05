@@ -36,8 +36,8 @@ _SeeConfErrTitle=" Review Error "
 _SeeConfErrBody1="\nFile does not exist.\n\n"
 _SeeConfErrBody2="\nThe Base System must be installed first.\n\n"
 
-# Pacman
-_PrepPacKey="Refresh Pacman Keys (optional)"
+# Pacman - translate
+_PrepPacKey="Refresh Pacman Keys"
 
 # Logical Volume Management
 _PrepLVM="Logical Volume Management (optional)"
@@ -105,7 +105,7 @@ _LvmCompBody="\nDone! All Logical Volumes have been created for the Volume Group
 _DevShowTitle=" Devices / Partitions "
 _DevShowOpt="List Devices (optional)"
 
-# Check Requirements and Identify System Type
+# Check Requirements and Identify System Type - Translate
 _ChkTitle=" Rechecking Requirements "
 _ChkBody="\nRechecking installer has been run as root and that there is an active internet connection. Please wait...\n\n"
 
@@ -167,9 +167,9 @@ _FstabDev="Dev (partition code)"
 _FstabLabel="Label (user defined)"
 _FstabUUID="UUID/PARTUUID (unique code)"
 
-# Check FSTAB
-_FstabChkTitle=" Check FSTAB "
-_FstabChkBody="\nPlease check the FSTAB file, before closing it to continue.\n\n"
+# Check FSTAB - remove
+#_FstabChkTitle=" Check FSTAB "
+#_FstabChkBody="\nPlease check the FSTAB file, before closing it to continue.\n\n"
 
 # Set Hostname
 _HostNameTitle=" Configure Host Name "
@@ -210,15 +210,15 @@ _MntStatusTitle=" Mount Status "
 _MntStatusSucc="\nMount Successful!\n\n"
 _MntStatusFail="\nMount Failed!\n\n"
 
-# Select Device (installation)
+# Select Device (installation) - Translate
 _DevSelTitle=" Select Device "
-_DevSelBody="\nDevices (/dev) are available hard-disks and USB-sticks to install on. The first is /sda, the second /sdb, and so on.\n\nWhere using a USB-stick to boot Evo, be careful as it will also be listed!"
+_DevSelBody="\nDevices (/dev) are available hard-disks and USB-sticks to install on. The first is /sda, the second /sdb, and so on.\n\nWhere using a USB-stick to boot Architect, be careful as it will also be listed!"
 
 # Select Device (Grub) - seperate body text is not required (uses standard device selection text)
 _DevSelGrubTitle=" Select Grub Device "
 
 
-# Partitioning Tool
+# Partitioning Tool - Translate
 _PartToolTitle=" Partitioning Tool "
 _PartToolBody="\nAn Auto-Partition option is available for beginners.\n\nOtherwise, DO NOT select a UEFI/GPT-only partitioning tool for a BIOS/MBR system as this could cause serious problems, including an unbootable installation."
 
@@ -258,9 +258,9 @@ _FormUefiBody2="has already been formatted.\n\nReformat? Doing so will erase ALL
 _OptUefiTitle=" UEFI Mountpoint Options "
 _OptUefiBody="\nThe bootloader(s) that can be installed later will depend on where the UEFI partition is mounted.\n\n- Grub2 has no UEFI mount preference.\n- Gummiboot (recommended) requires mount at /boot.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported, and installations must be updated manually. rEFInd is therefore recommended for experienced users.\n"
 
-# UEFI Mountpoint
+# UEFI Mountpoint - Translate
 _MntUefiTitle=" Select UEFI Mountpoint "
-_MntUefiBody="\nGummiboot (recommended) requires /boot, rEFInd requires /boot/efi, and Grub will work with either."
+_MntUefiBody="\nsystemd-boot requires /boot, rEFInd requires /boot/efi, and Grub will work with either."
 
 # Extra Partitions
 _ExtPartTitle=" Select Additional Partition "
@@ -300,18 +300,18 @@ _InstGrubDevBody2="\n\nPick 'Yes' if you are only installing on one device."
 _InstSysTitle=" Syslinux Configuration Check "
 _InstSysBody="\nPlease check the syslinux configuration file.\n\nIt should contain the command:\n"
 
-# Install UEFI Bootloader
+# Install UEFI Bootloader - Translate
 _InstUefiBtTitle=" Install UEFI Bootloader "
-_InstUefiBtBody="\n- Grub2 has no UEFI mount preference.\n- Gummiboot requires mount at /boot.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported."
+_InstUefiBtBody="\n- Grub2 has no UEFI mount preference.\n- systemd-boot requires mount at /boot.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Set Grub as Default Bootloader? "
 _SetGrubDefBody="\nSome UEFI firmware may not detect Grub unless it is set as the default bootloader, resulting in an unbootable system in such instances.\n\nDo you wish to set Grub as the default bootloader?\n\nIt is recommended to select 'Yes', especially for beginners. This will copy the bootable grubx64.efi stub to"
 _SetGrubDefBody2="and rename it to bootx64.efi, as required.\n\nOtherwise select 'No', particularly if there is already a default bootloader, and/or where intending to use multiple bootloaders."
 
-# Gummiboot Configuration Check
-_ChkGumTitle=" Gummiboot Configuration Check "
-_ChkGumBody="\nPlease check the arch and loader configuration files before closing them to continue.\n"
+# Gummiboot Configuration Check - Remove
+#_ChkGumTitle=" Gummiboot Configuration Check "
+#_ChkGumBody="\nPlease check the arch and loader configuration files before closing them to continue.\n"
 
 # Set rEFInd as default
 _SetRefiDefTitle=" Set rEFInd as Default Bootloader? "
@@ -349,9 +349,9 @@ _GCDetBody2="-Select 'Yes' to install its OPEN-SOURCE driver.\n\n-Select 'No' to
 _DEInfoTitle=" Install Desktop Environments "
 _DEInfoBody="\nThis option can be repeated to install multiple environments.\n\nGnome, KDE (full), and LXDE come with a display manager.\n\nCinnamon, Gnome and KDE come with a Network Manager.\n\n"
 
-# Install DE Menu
+# Install DE Menu - Translate
 _InstDETitle=" Install Desktop Environments  "
-_InstDEBody="\nDesktop Environments are listed first, and may have multiple download options.\n\nKDE is a 750MB+ download."
+_InstDEBody="\nDesktop Environments are listed first, and may have multiple download options."
 
 # Install Common Packages
 _InstComTitle=" Install Common Packages? "
@@ -380,9 +380,9 @@ _InstNMDoneBody="\nThe network connection manager has been installed and enabled
 # Network Manager Already Installed (no need for seperate title)
 _InstNMErrBody="\nA network connection manager has already been installed and enabled."
 
-# Welcome
+# Welcome - Translate
 _WelTitle=" Welcome to"
-_WelBody="\nHighlight options by pressing their numbers or by using the up/down arrow keys before pressing [enter] to confirm.\n\nSwitch between buttons by using [Tab] or the left/right arrow keys before pressing [enter] to confirm.\n\nA mouse/touchpad may also be used.\n"
+_WelBody="\nHighlight options by pressing their numbers or by using the up/down arrow keys before pressing [enter] to confirm.\n\nSwitch between buttons by using [Tab] or the left/right arrow keys before pressing [enter] to confirm.\n"
 
 # Preparation Menu
 _PrepTitle=" Prepare Installation "
