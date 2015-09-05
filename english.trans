@@ -264,11 +264,11 @@ _FormUefiBody2="has already been formatted.\n\nReformat? Doing so will erase ALL
 
 # UEFI Options
 _OptUefiTitle=" UEFI Mountpoint Options "
-_OptUefiBody="\nThe bootloader(s) that can be installed later will depend on where the UEFI partition is mounted.\n\n- Grub2 has no UEFI mount preference.\n- Gummiboot (recommended) requires mount at /boot.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported, and installations must be updated manually. rEFInd is therefore recommended for experienced users.\n"
+_OptUefiBody="\nThe bootloader(s) that can be installed later will depend on where the UEFI partition is mounted.\n\n- Grub2 and systemd-boot have no UEFI mount preference.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported, and installations must be updated manually. rEFInd is therefore recommended for experienced users.\n"
 
 # UEFI Mountpoint - Translate
 _MntUefiTitle=" Select UEFI Mountpoint "
-_MntUefiBody="\nsystemd-boot requires /boot, rEFInd requires /boot/efi, and Grub will work with either."
+_MntUefiBody="\nrEFInd requires /boot/efi. Grub and systemd-boot will work either mountpoint."
 
 # Extra Partitions
 _ExtPartTitle=" Select Additional Partition "
