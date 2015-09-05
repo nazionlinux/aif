@@ -654,7 +654,12 @@ delete_partitions(){
 	
 	if [[ $? -eq 0 ]]; then
 	    delete_partitions
-		parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
+	    if [[ $(parted -s ${DEVICE} print | grep -i 'msdos') -eq "" ]]; then
+		   parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
+		else
+		   echo "yes, it is msdos"
+		   read
+		fi
 		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>>/tmp/.errlog	
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
 		check_for_error
@@ -671,7 +676,9 @@ delete_partitions(){
 	
 	if [[ $? -eq 0 ]]; then
 	    delete_partitions
-		parted -s ${DEVICE} mklabel gpt 2>/tmp/.errlog
+	    if [[ $(parted -s ${DEVICE} print | grep -i 'gpt') -eq "" ]]; then
+		   parted -s ${DEVICE} mklabel gpt 2>/tmp/.errlog
+		fi
 		parted -s ${DEVICE} mkpart ESP fat32 1MiB 513MiB 2>>/tmp/.errlog
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
 		parted -s ${DEVICE} mkpart primary ext3 513MiB 100% 2>>/tmp/.errlog
