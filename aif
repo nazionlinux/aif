@@ -638,10 +638,13 @@ auto_partition(){
 
 delete_partitions(){
 	
-	for del_part in $(parted -s /dev/sda print|awk '/^ / {print $1}'); do
-		parted -s ${DEVICE} rm ${del_part} >/dev/null 2>&1
+	parted -s /dev/sda print|awk '/^ / {print $1}' > /tmp/.del_parts
+	
+	for del_part in $(tac /tmp/.del_parts); do
+		parted -s ${DEVICE} rm ${del_part}
 		echo "del_part: $del_part"
 	done
+	
 	read
 
 }
