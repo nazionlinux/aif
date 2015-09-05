@@ -661,8 +661,9 @@ delete_partitions(){
 	    delete_partitions
 	    if [[ $part_table != "msdos" ]]; then
 		   parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
+		   check_for_error
 		fi
-		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>>/tmp/.errlog	
+		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>/tmp/.errlog	
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
 		check_for_error
         echo -e "Partition Scheme:\n" > /tmp/.devlist
@@ -680,8 +681,9 @@ delete_partitions(){
 	    delete_partitions
 	    if [[ $part_table != "gpt" ]]; then
 		   parted -s ${DEVICE} mklabel gpt 2>/tmp/.errlog
+		   check_for_error
 		fi
-		parted -s ${DEVICE} mkpart ESP fat32 1MiB 513MiB 2>>/tmp/.errlog
+		parted -s ${DEVICE} mkpart ESP fat32 1MiB 513MiB 2>/tmp/.errlog
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
 		parted -s ${DEVICE} mkpart primary ext3 513MiB 100% 2>>/tmp/.errlog
 		echo -e "Partition Scheme:\n" > /tmp/.devlist
