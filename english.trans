@@ -131,9 +131,9 @@ _MirrorRestore="Restore original mirrorlist"
 _MirrorRankTitle=" Running RankMirrors "
 _MirrorRankBody="\nFinding the fastest servers from the mirrorlist. Please wait...\n\n"
 _MirrorRankDone="\nDone! The mirrorlist has been sorted by the fastest servers.\n"
-_MirrorRestDone="\nDone! The original mirrorlist has been restored."
+_MirrorRestDone="\nDone! The original mirrorlist has been restored.\n"
 _MirrorNoneTitle=" Mirrorlist Error "
-_MirrorNoneBody="\nA copy of the original mirrorlist was not found."
+_MirrorNoneBody="\nA copy of the original mirrorlist was not found.\n"
 
 # Generate Mirrorlist by country
 _MirrorCntryTitle=" Select Country "
