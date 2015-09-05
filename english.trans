@@ -310,7 +310,7 @@ _InstSysBody="\nPlease check the syslinux configuration file.\n\nIt should conta
 
 # Install UEFI Bootloader - Translate
 _InstUefiBtTitle=" Install UEFI Bootloader "
-_InstUefiBtBody="\n- Grub2 has no UEFI mount preference.\n- systemd-boot requires mount at /boot.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported."
+_InstUefiBtBody="\n- Grub2 and system-d boot have no UEFI mount preference.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Set Grub as Default Bootloader? "
