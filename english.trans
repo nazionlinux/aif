@@ -128,7 +128,7 @@ _MirrorbyCountry="Generate list by Country"
 _MirrorEdit="Manually edit mirrorlist"
 _MirrorRank="Sort mirrorlist by fastest servers"
 _MirrorRankTitle=" Running RankMirrors "
-_MirrorRankBody="Finding the five fastest servers from the mirrorlist. Please wait..."
+_MirrorRankBody="Finding the fastest servers from the mirrorlist. Please wait..."
 _MirrorRankDone="\nDone! The original mirrorlist has been saved as:\n\n/etc/pacman.d/mirrorlist.backup\n\n."
 
 # Generate Mirrorlist by country
