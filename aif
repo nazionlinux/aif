@@ -91,18 +91,18 @@ FILE2=""					# Which second file is to be opened?
 # Add locale on-the-fly and sets source translation file for installer
 select_language() {
 
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / nγλώσσα / språk / lingua / idioma / язык / język / nyelv / língua" 0 0 4 \
- 	"1" $"English" 2>${ANSWER}
-# 	"2" $"Deutsch" \
-# 	"3" $"Nederlands" \
-# 	"4" $"Eλληνικά" \
-# 	"5" $"Norsk" \
-# 	"6" $"Italiano" \
-# 	"7" $"Español" \
-# 	"8" $"Русский" \
-# 	"9" $"Polski" \
-# 	"10" $"Magyar" \
-# 	"11" $"Portugese" 2>${ANSWER}
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / nγλώσσα / språk / lingua / idioma / язык / język / nyelv / língua" 0 0 11 \
+ 	"1" $"English" \
+ 	"2" $"Deutsch" \
+ 	"3" $"Nederlands" \
+ 	"4" $"Eλληνικά" \
+ 	"5" $"Norsk" \
+ 	"6" $"Italiano" \
+ 	"7" $"Español" \
+ 	"8" $"Русский" \
+ 	"9" $"Polski" \
+ 	"10" $"Magyar" \
+ 	"11" $"Portugese" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
         "1") source /aif-master/english.trans
