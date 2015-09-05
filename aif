@@ -661,9 +661,6 @@ delete_partitions(){
 	    delete_partitions
 	    if [[ $part_table != "msdos" ]]; then
 		   parted -s ${DEVICE} mklabel msdos 2>/tmp/.errlog
-		else
-		   echo "yes, it is msdos"
-		   read
 		fi
 		parted -s ${DEVICE} mkpart primary ext3 1MiB 100% 2>>/tmp/.errlog	
 		parted -s ${DEVICE} set 1 boot on 2>>/tmp/.errlog
