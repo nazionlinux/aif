@@ -636,16 +636,15 @@ create_partitions(){
 # have to learn to use a partitioning application.
 auto_partition(){
 
+# Hooray for tac! Deleting partitions in reverse order deals with logical partitions easily.
 delete_partitions(){
 	
 	parted -s /dev/sda print|awk '/^ / {print $1}' > /tmp/.del_parts
 	
 	for del_part in $(tac /tmp/.del_parts); do
-		parted -s ${DEVICE} rm ${del_part}
-		echo "del_part: $del_part"
+		parted -s ${DEVICE} rm ${del_part} 2>/tmp/.errlog
+		check_for_error
 	done
-	
-	read
 
 }
 
