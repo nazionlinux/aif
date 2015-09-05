@@ -640,7 +640,9 @@ delete_partitions(){
 	
 	for del_part in $(parted -s /dev/sda print|awk '/^ / {print $1}'); do
 		parted -s ${DEVICE} rm ${del_part}
+		echo "del_part: $del_part"
 	done
+	read
 
 }
 
