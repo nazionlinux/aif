@@ -299,14 +299,20 @@ mirror_by_country() {
 }
 
 dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorlistTitle" \
-    --menu "$_MirrorlistBody" 0 0 2 \
+    --menu "$_MirrorlistBody" 0 0 3 \
 	"1" "$_MirrorbyCountry" \
-	"2" "$_MirrorEdit" 2>${ANSWER}	
+	"2" "$_MirrorEdit" \
+	"3" "$_MirrorRank" 2>${ANSWER}	
 
     case $(cat ${ANSWER}) in
         "1") mirror_by_country
              ;;
         "2") nano /etc/pacman.d/mirrorlist
+             ;;
+        "3") clear
+             rankmirrors -n 5 /etc/pacman.d/mirrorlist 2>/tmp/.errlog
+             check_for_error
+             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --msgbox "$_MirrorRankDone" 0 0
              ;;
           *) prep_menu
              ;;
