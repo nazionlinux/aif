@@ -299,10 +299,11 @@ mirror_by_country() {
 }
 
 dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorlistTitle" \
-    --menu "$_MirrorlistBody" 0 0 3 \
+    --menu "$_MirrorlistBody" 0 0 4 \
 	"1" "$_MirrorbyCountry" \
 	"2" "$_MirrorEdit" \
-	"3" "$_MirrorRank" 2>${ANSWER}	
+	"3" "$_MirrorRank" \
+	"4" "_Back" 2>${ANSWER}	
 
     case $(cat ${ANSWER}) in
         "1") mirror_by_country
@@ -310,7 +311,8 @@ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorlistTitle" \
         "2") nano /etc/pacman.d/mirrorlist
              ;;
         "3") clear
-             rankmirrors -n 5 /etc/pacman.d/mirrorlist 2>/tmp/.errlog
+             cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+             rankmirrors -n 5 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist 2>/tmp/.errlog
              check_for_error
              dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --msgbox "$_MirrorRankDone" 0 0
              ;;
@@ -318,6 +320,7 @@ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorlistTitle" \
              ;;
     esac  	
 
+    configure_mirrorlist
 }
 
 # virtual console keymap
