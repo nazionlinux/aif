@@ -2,9 +2,14 @@
 ##
 ## Italian Translation File
 ##
-## Written by hashcat for Evo/Lution Linux (14th December 2014)
+## Written by hashcat and Giuseppe Carelli (6th September 2015)
 ##
 ##
+
+# Autopartition
+_AutoPartBIOSBody1="Attenzione : Tutti i dati su"
+_AutoPartBIOSBody2="saranno distrutti.\n\nVerrà creata una singola partizione che utilizza tutto lo spazio disponibile . Se l'intenzione di utilizzare SWAP , selezionare l'opzione ' File di Swap ' durante il montaggio.\n\nVuoi continuare?"
+_AutoPartUEFIBody1="saranno distrutti.\n\nDapprima creata una partizione di avvio 512 UEFI , seguita da una seconda partizione di sistema utilizzando tutto lo spazio rimanente . Se l'intenzione di utilizzare SWAP , selezionare l'opzione ' File di Swap ' durante il montaggio.\n\nVuoi continuare?"
 
 # Please wait...
 _PlsWaitBody="\nAttendere prego...\n\n"

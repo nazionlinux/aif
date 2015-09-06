@@ -93,8 +93,8 @@ select_language() {
     
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 4 \
  	"1" $"English" \
- 	"2" $"Italiano" \
- 	"3" $"Russian" 2>${ANSWER}
+ 	"2" $"Italiano" 2>${ANSWER}
+# 	"3" $"Russian" 2>${ANSWER}
 # 	"2" $"Deutsch" \
 # 	"3" $"Nederlands" \
 # 	"4" $"Eλληνικά" \
@@ -115,7 +115,7 @@ select_language() {
              ;; 
         "3") source /aif-master/russian.trans
              CURR_LOCALE="ru_RU.UTF-8"
-             setfont  LatGrkCyr-8x16.psfu
+             setfont  LatGrkCyr-8x16.psfu # Desperately need a better font
              ;;
         
                
@@ -659,14 +659,13 @@ delete_partitions(){
 
 
 }
-
- # Autopartition for BIOS systems
  
  # Identify the partition table
  part_table=$(parted -s ${DEVICE} print | grep -i 'partition table' | awk '{print $3}')
- 
+
+ # Autopartition for BIOS systems 
  if [[ $UEFI -eq 0 ]]; then
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "$_AutoPartBody1 $DEVICE $_AutoPartBIOSBody2" 0 0
 	
 	if [[ $? -eq 0 ]]; then
 	    delete_partitions
@@ -686,7 +685,7 @@ delete_partitions(){
  
  # Autopartition for UEFI systems   
  else
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "Warning: ALL data on $DEVICE will be destroyed.\n\nA 512MB UEFI boot partition will first be created, followed by a second system partition using all remaining space. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue?" 0 0
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (UEFI/GPT) " --yesno "$_AutoPartBody1 $DEVICE $_AutoPartUEFIBody2" 0 0
 	
 	if [[ $? -eq 0 ]]; then
 	    delete_partitions
