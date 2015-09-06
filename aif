@@ -1932,8 +1932,8 @@ install_de_wm() {
 				cp -f /aif-master/openbox-full/rc.xml ${MOUNTPOINT}/home/$i/.config/openbox
 				
 				sed -i "s/architect/${i}/" ${MOUNTPOINT}/home/$i/.gtkrc-2.0
-				sed -i "s/thunar/${EVOBOXFM}/" ${MOUNTPOINT}/home/$i/.config/openbox/menu.xml ${MOUNTPOINT}/home/$i/.config/openbox/rc.xml
-				sed -i "s/firefox/${EVOBOXIB}/" ${MOUNTPOINT}/home/$i/.config/openbox/menu.xml ${MOUNTPOINT}/home/$i/.config/openbox/rc.xml
+				sed -i "s/thunar/${OPENBOXFM}/" ${MOUNTPOINT}/home/$i/.config/openbox/menu.xml ${MOUNTPOINT}/home/$i/.config/openbox/rc.xml
+				sed -i "s/firefox/${OPENBOXIB}/" ${MOUNTPOINT}/home/$i/.config/openbox/menu.xml ${MOUNTPOINT}/home/$i/.config/openbox/rc.xml
 				
 				[[ $OPENBOXFM == "pcmanfm" ]] && sed -i "s/Thunar/PCManFM/" ${MOUNTPOINT}/home/$i/.config/openbox/menu.xml ${MOUNTPOINT}/home/$i/.conkyrc
 				[[ $OPENBOXFM == "spacefm" ]] && sed -i "s/Thunar/SpaceFM/" ${MOUNTPOINT}/home/$i/.config/openbox/menu.xml ${MOUNTPOINT}/home/$i/.conkyrc
