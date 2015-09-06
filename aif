@@ -92,7 +92,8 @@ FILE2=""					# Which second file is to be opened?
 select_language() {
 
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 4 \
- 	"1" $"English" 2>${ANSWER}
+ 	"1" $"English" \
+ 	"2" $"Italiano" 2>${ANSWER}
 # 	"2" $"Deutsch" \
 # 	"3" $"Nederlands" \
 # 	"4" $"Eλληνικά" \
@@ -108,36 +109,39 @@ select_language() {
         "1") source /aif-master/english.trans
              CURR_LOCALE="en_US.UTF-8"
              ;;
-        "2") source /aif-master/german.trans
-             CURR_LOCALE="de_DE.UTF-8" 
-             ;;
-        "3") source /aif-master/dutch.trans
-             CURR_LOCALE="nl_NL.UTF-8"
-             ;;
-        "4") source /aif-master/greek.trans
-             CURR_LOCALE="el_GR.UTF-8"
-             ;;
-        "5") source /aif-master/norwegian.trans
-             CURR_LOCALE="nl_NL.UTF-8"
-             ;;
-        "6") source /aif-master/italian.trans
+        "2") source /aif-master/italian.trans
              CURR_LOCALE="it_IT.UTF-8"
-             ;;
-        "7") source /aif-master/spanish.trans
-             CURR_LOCALE="es_ES.UTF-8"
-             ;;
-        "8") source /aif-master/russian.trans
-             CURR_LOCALE="ru_RU.UTF-8"
-             ;;
-        "9") source /aif-master/polish.trans
-             CURR_LOCALE="pl_PL.UTF-8"
-             ;;
-       "10") source /aif-master/hungarian.trans
-             CURR_LOCALE="hu_HU.UTF-8"  
-             ;;
-       "11") source /aif-master/portuguese.trans
-             CURR_LOCALE="pt_PT.UTF-8"
-             ;;
+             ;;        
+#             source /aif-master/german.trans
+#             CURR_LOCALE="de_DE.UTF-8" 
+#             ;;
+#        "") source /aif-master/dutch.trans
+#             CURR_LOCALE="nl_NL.UTF-8"
+#             ;;
+#        "") source /aif-master/greek.trans
+#             CURR_LOCALE="el_GR.UTF-8"
+#             ;;
+#        "") source /aif-master/norwegian.trans
+#             CURR_LOCALE="nl_NL.UTF-8"
+#             ;;
+#        "") source /aif-master/italian.trans
+#             CURR_LOCALE="it_IT.UTF-8"
+#             ;;
+#        "") source /aif-master/spanish.trans
+#             CURR_LOCALE="es_ES.UTF-8"
+#             ;;
+#        "") source /aif-master/russian.trans
+#             CURR_LOCALE="ru_RU.UTF-8"
+#             ;;
+#        "") source /aif-master/polish.trans
+#             CURR_LOCALE="pl_PL.UTF-8"
+#             ;;
+#       "") source /aif-master/hungarian.trans
+#             CURR_LOCALE="hu_HU.UTF-8"  
+#             ;;
+#       "") source /aif-master/portuguese.trans
+#             CURR_LOCALE="pt_PT.UTF-8"
+#             ;;
           *) exit 0
              ;;
     esac
@@ -1245,12 +1249,12 @@ install_base() {
              ;;
         "3") # LTS Kernel
              clear
-             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs btrfs-progs ntp sudo 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs btrfs-progs ntp sudo linux-firmware 2>/tmp/.errlog
              [[ $? -eq 0 ]] && LTS=1
              ;;
         "4") # LTS Kernel and base-devel
              clear
-             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs base-devel btrfs-progs ntp sudo 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs base-devel btrfs-progs ntp sudo linux-firmware 2>/tmp/.errlog
              [[ $? -eq 0 ]] && LTS=1
              ;;
           *) install_base_menu
