@@ -109,17 +109,17 @@ select_language() {
 # 	"11" $"Portugese" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
-        "1") source /aif/english.trans
+        "1") source /aif-master/english.trans
              CURR_LOCALE="en_US.UTF-8"
              ;;
-        "2") source /aif/italian.trans
+        "2") source /aif-master/italian.trans
              CURR_LOCALE="it_IT.UTF-8"
              ;; 
-        "3") source /aif/russian.trans
+        "3") source /aif-master/russian.trans
              CURR_LOCALE="ru_RU.UTF-8"
              FONT="LatKaCyrHeb-14.psfu"
              ;;
-        "4") source /aif/turkish.trans
+        "4") source /aif-master/turkish.trans
              CURR_LOCALE="tr_TR.UTF-8"
              FONT="LatKaCyrHeb-14.psfu"
              ;;
