@@ -119,7 +119,7 @@ select_language() {
              CURR_LOCALE="ru_RU.UTF-8"
              FONT="LatKaCyrHeb-14.psfu"
              ;;
-        "4") source /aif-dev/turkish.trans
+        "4") source /aif/turkish.trans
              CURR_LOCALE="tr_TR.UTF-8"
              FONT="LatKaCyrHeb-14.psfu"
              ;;
