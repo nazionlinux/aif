@@ -351,8 +351,9 @@ set_keymap() {
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_KeymapTitle" \
     --menu "$_KeymapBody" 20 40 16 ${KEYMAPS} 2>${ANSWER} || config_base_menu
     KEYMAP=$(cat ${ANSWER})
-    echo "KEYMAP=$KEYMAP" > ${MOUNTPOINT}/etc/vconsole.conf 2>/tmp/.errlog
+    setkeys $KEYMAP 2>/tmp/.errlog
     check_for_error
+    echo "KEYMAP=$KEYMAP" > /tmp/vconsole.conf
   }
 
 # Set keymap for X11
@@ -368,8 +369,6 @@ set_keymap() {
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_XkbmapTitle" --menu "$_XkbmapBody" 0 0 16 ${XKBMAP_LIST} 2>${ANSWER} || prep_menu
     XKBMAP=$(cat ${ANSWER} |sed 's/_.*//')
     echo -e "Section "\"InputClass"\"\nIdentifier "\"system-keyboard"\"\nMatchIsKeyboard "\"on"\"\nOption "\"XkbLayout"\" "\"${XKBMAP}"\"\nEndSection" > /tmp/00-keyboard.conf
-    setxkbmap $XKBMAP 2>/tmp/.errlog
-    check_for_error
  
 }
 
@@ -1263,6 +1262,8 @@ install_base() {
              ;;
     esac  	
     
+    # If the virtual console has been set, then copy config file to installation
+    [[ -e /tmp/vconsole.conf ]] && cp /tmp/vconsole.conf ${MOUNTPOINT}/etc/vconsole.conf 2>>/tmp/.errlog
     check_for_error
     
 
@@ -2175,7 +2176,7 @@ prep_menu() {
 
     HIGHLIGHT_SUB=$(cat ${ANSWER})
 	case $(cat ${ANSWER}) in
-        "1") set_xkbmap 
+        "1") set_keymap 
              ;;
         "2") configure_mirrorlist
              ;;
@@ -2276,7 +2277,7 @@ config_base_menu() {
              ;;            
         "5") set_locale
              ;;
-        "6") set_keymap
+        "6") set_xkbmap
              ;;            
           *) main_menu_online
              ;;
