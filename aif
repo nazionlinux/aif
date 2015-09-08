@@ -74,6 +74,7 @@ VG_SIZE_TYPE=""         	# Is VG in Gigabytes or Megabytes?
 # Installation
 MOUNTPOINT="/mnt"       	# Installation
 MOUNT_TYPE=""           	# "/dev/" for standard partitions, "/dev/mapper" for LVM
+F2FS=0                      # F2FS FS used?
 
 # Language Support
 CURR_LOCALE="en_US.UTF-8"   # Default Locale
@@ -766,6 +767,8 @@ find_partitions() {
 # partially because some don't seem to be viable.
 select_filesystem(){
 
+F2FS=0
+
 dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_FSTitle" \
     --menu "$_FSBody" 0 0 11 \
  	"1" "$_FSSkip" \
@@ -791,6 +794,7 @@ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_FSTitle" \
              ;;
         "5") FILESYSTEM="mkfs.f2fs"
              modprobe f2fs
+             F2FS=1
              ;;
         "6") FILESYSTEM="mkfs.jfs -q"
              ;;
@@ -1267,10 +1271,14 @@ install_base() {
              ;;
     esac  	
     
+    # If F2FS FS used, install the tools
+    [[ F2FS -eq 1 ]] && pacstrap ${MOUNTPOINT} f2fs-tools
+    
     # If the virtual console has been set, then copy config file to installation
     [[ -e /tmp/vconsole.conf ]] && cp /tmp/vconsole.conf ${MOUNTPOINT}/etc/vconsole.conf 2>>/tmp/.errlog
     check_for_error
     
+    # If F2FS FS used, install the tools
 
   #check for a wireless device
   if [[ $(lspci | grep -i "Network Controller") != "" ]]; then
