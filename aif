@@ -1272,13 +1272,11 @@ install_base() {
     esac  	
     
     # If F2FS FS used, install the tools
-    [[ F2FS -eq 1 ]] && pacstrap ${MOUNTPOINT} f2fs-tools
+    [[ F2FS -eq 1 ]] && pacstrap ${MOUNTPOINT} f2fs-tools 2>>/tmp/.errlog
     
     # If the virtual console has been set, then copy config file to installation
     [[ -e /tmp/vconsole.conf ]] && cp /tmp/vconsole.conf ${MOUNTPOINT}/etc/vconsole.conf 2>>/tmp/.errlog
     check_for_error
-    
-    # If F2FS FS used, install the tools
 
   #check for a wireless device
   if [[ $(lspci | grep -i "Network Controller") != "" ]]; then
