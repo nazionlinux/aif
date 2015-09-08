@@ -375,8 +375,8 @@ _DmDoneTitle="Enabled "
 _DMDoneBody="has been enabled.\n\n"
 
 # LXDM or LightDM
-_DmChoiceTitle=" Choose Display Manager "
-_DmChoiceBody="\nPlease choose your display manager.\n"
+_DmChTitle=" Choose Display Manager "
+_DmChBody="\nPlease choose your display manager.\n"
 
 # DM Already Installed
 _DmInstTitle=" Display Manager Installed "
