@@ -1860,7 +1860,7 @@ install_de_wm() {
              ;;
         "15") #Fluxbox
               clear 
-              pacstrap ${MOUNTPOINT} fluxbox fbnews fluxter polkit-gnome xterm 2>/tmp/.errlog
+              pacstrap ${MOUNTPOINT} fluxbox fbnews polkit-gnome xterm 2>/tmp/.errlog
              ;; 
         "16") #i3
               clear
