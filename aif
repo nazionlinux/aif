@@ -1994,8 +1994,8 @@ install_dm() {
 # Function to save repetition
 dm_menu(){
 
- dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_DmChoiceTitle" \
-               --menu "$_DmChoiceBody" 0 0 4 \
+ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_DmChTitle" \
+               --menu "$_DmChBody" 0 0 4 \
  	           "1" $"LXDM" \
 	           "2" $"LightDM" \
 	           "3" $"SDDM" \
