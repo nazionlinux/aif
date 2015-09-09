@@ -1,6 +1,6 @@
 # !/bin/bash
 #
-# Architect Installation Framework (version 1.2 - 08-Sept-2015)
+# Architect Installation Framework (version 1.3 - 09-Sept-2015)
 #
 # Written by Carl Duff for Architect Linux
 #
@@ -21,7 +21,7 @@
 ANSWER="/tmp/.aif"
 
 # Save retyping
-VERSION="Architect Installation Framework 1.2"
+VERSION="Architect Installation Framework 1.3"
 
 # Installation
 KDE_INSTALLED=0      		# Has KDE been installed? Used for display manager option
@@ -1681,13 +1681,13 @@ install_gc() {
       "Intel") pacstrap ${MOUNTPOINT} xf86-video-intel libva-intel-driver intel-ucode 2>/tmp/.errlog
                sed -i 's/MODULES=""/MODULES="i915"/' ${MOUNTPOINT}/etc/mkinitcpio.conf
                
-               # Intel microcode (Syslinux and Gummiboot).
+               # Intel microcode (Syslinux and systemd-boot).
                # Grub automatically deals with this. rEFInd is yet to be added.
                case $BOOTLADER in
 				    "Syslinux") sed -i 's/INITRD /INITRD/g' ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
                                 sed -i 's/INITRD/INITRD ..\/intel-ucode.img,/g' ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
                                 ;;
-                   "Gummiboot") sed -i '/linux \//a initrd \/intel-ucode.img' ${MOUNTPOINT}${UEFI_MOUNT}/loader/entries/arch.conf
+                "systemd-boot") sed -i '/linux \//a initrd \/intel-ucode.img' ${MOUNTPOINT}${UEFI_MOUNT}/loader/entries/arch.conf
                                 ;;
                esac
                ;;
