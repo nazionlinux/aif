@@ -1612,7 +1612,7 @@ gc_driver_menu() {
              ;;            
         "8") GC_DETECTED="VirtualBox"
              ;;
-        "9") GC_DETECTED="VMware"
+        "9") GC_DETECTED="VMWare"
              ;;
         "10") GC_DETECTED="Generic"
              ;;
@@ -1634,7 +1634,7 @@ detect_graphics_card() {
     elif [[ $(echo ${GRAPHIC_CARD} | grep -i 'virtualbox') != "" ]]; then
          GC_DETECTED="VirtualBox"
     elif [[ $(echo ${GRAPHIC_CARD} | grep -i 'vmware') != "" ]]; then
-         GC_DETECTED="VMware"
+         GC_DETECTED="VMWare"
     elif [[ $(echo ${GRAPHIC_CARD} | grep -i 'via') != "" ]]; then
          GC_DETECTED="Via"
     else
