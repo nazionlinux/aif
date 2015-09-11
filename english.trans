@@ -363,7 +363,7 @@ _DEInfoTitle=" Install Desktop Environments "
 _DEInfoBody="\nThis option can be repeated to install multiple environments.\n\nGnome, KDE (full), and LXDE come with a display manager.\n\nCinnamon, Gnome and KDE come with a Network Manager.\n\n"
 
 # Install DE Menu - Translate
-_InstDETitle=" Install Desktop Environments  "
+_InstDETitle=" Install Desktop Environments "
 _InstDEBody="\nDesktop Environments are listed first, and may have multiple download options."
 
 # Install Common Packages
@@ -413,7 +413,7 @@ _InstBse="Install Base"
 _InstBootldr="Install Bootloader"
 
 # Configure Base Menu
-_ConfBseTitle=" Configure Base"
+_ConfBseTitle=" Configure Base "
 _ConfBseBody="\nBasic configuration of the base is required. This includes setting basic networking, time, language, and keyboard defaults for the installed system."
 _ConfBseFstab="Generate FSTAB"
 _ConfBseHost="Set Hostname"
