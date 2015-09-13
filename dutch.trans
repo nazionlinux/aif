@@ -132,6 +132,7 @@ _MirrorlistBody="\nOp deze mirrorlijst staan de nodige serveradressen, door pacm
 _MirrorbyCountry="Gegenereerde lijst per land"
 _MirrorEdit="Manueel bewerkte lijst"
 _MirrorRestore="Herstel de originele mirrorlijst"
+_MirrorRank="Sorteren mirrorlijst door snelste servers"
 _MirrorRankTitle=" Sorteer de lijst "
 _MirrorRankBody="\nZoeken van de snelste servers van de mirrorlijst. even geduld aub...\n\n"
 _MirrorRankDone="\nKlaar! De snelste servers staat bovenaan de lijst.\n\n"
