@@ -93,7 +93,7 @@ FILE2=""					# Which second file is to be opened?
 # Add locale on-the-fly and sets source translation file for installer
 select_language() {
     
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 8 \
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 9 \
  	"1" $"English" \
  	"2" $"Italiano" \
  	"3" $"Russian" \
@@ -101,7 +101,8 @@ select_language() {
  	"5" $"Dutch" \
  	"6" $"Greek" \
  	"7" $"Danish" \
- 	"8" $"Hungarian" 2>${ANSWER}
+ 	"8" $"Hungarian" \
+ 	"9" $"portuguese (Brazil)" 2>${ANSWER}
 # 	"2" $"Deutsch" \
 # 	"3" $"Nederlands" \
 # 	"4" $"Eλληνικά" \
@@ -141,7 +142,10 @@ select_language() {
         "8") source /aif-master/hungarian.trans
              CURR_LOCALE="hu_HU.UTF-8"
              FONT="lat2-16.psfu"
-             ;;             
+             ;;
+        "9") source /aif-master/portuguese.trans
+             CURR_LOCALE="pt_BR.UTF-8"    
+             ;;      
 #        "") source /aif-master/norwegian.trans
 #             CURR_LOCALE="nl_NL.UTF-8"
 #             ;;
