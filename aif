@@ -2076,7 +2076,7 @@ dm_menu(){
 	        DM="SDDM"
             
          # LXDM, without KDE or Gnome 
-         elif [[ $LXDM_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 0 ]] && [[ $GNOME_INSTALLED -eq 0 ]]; then 
+         elif [[ $LXDE_INSTALLED -eq 1 ]] && [[ $KDE_INSTALLED -eq 0 ]] && [[ $GNOME_INSTALLED -eq 0 ]]; then 
             arch_chroot "systemctl enable lxdm.service" >/dev/null 2>/tmp/.errlog
             DM="LXDM"
 
