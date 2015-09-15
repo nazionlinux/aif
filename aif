@@ -102,7 +102,7 @@ select_language() {
  	"6" $"Greek" \
  	"7" $"Danish" \
  	"8" $"Hungarian" \
- 	"9" $"portuguese (Brazil)" 2>${ANSWER}
+ 	"9" $"Portuguese (Brazil)" 2>${ANSWER}
 # 	"2" $"Deutsch" \
 # 	"3" $"Nederlands" \
 # 	"4" $"Eλληνικά" \
