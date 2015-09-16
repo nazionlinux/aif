@@ -273,7 +273,7 @@ _OptUefiBody="\nThe bootloader(s) that can be installed later will depend on whe
 
 # UEFI Mountpoint - Translate
 _MntUefiTitle=" Select UEFI Mountpoint "
-_MntUefiBody="\nrEFInd requires /boot/efi. Grub and systemd-boot will work either mountpoint."
+_MntUefiBody="\nrEFInd requires /boot/efi. systemd-boot requires /boot. Grub will work with either mountpoint."
 
 # Extra Partitions
 _ExtPartTitle=" Select Additional Partition "
@@ -315,7 +315,7 @@ _InstSysBody="\nPlease check the syslinux configuration file.\n\nIt should conta
 
 # Install UEFI Bootloader - Translate
 _InstUefiBtTitle=" Install UEFI Bootloader "
-_InstUefiBtBody="\n- Grub2 and systemd-boot have no UEFI mount preference.\n- rEFInd requires mount at /boot/efi.\n\nNOTE: rEFInd with LVM is not supported."
+_InstUefiBtBody="\nrEFInd requires /boot/efi. systemd-boot requires /boot. Grub will work with either mountpoint.\n\nNOTE: rEFInd with LVM is not supported."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Set Grub as Default Bootloader? "

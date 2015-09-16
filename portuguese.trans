@@ -266,7 +266,7 @@ _OptUefiBody="\nO Bootloader que vai ser instalado mais tarde vai depender de on
 
 # UEFI Mountpoint - Translate
 _MntUefiTitle=" Selecionar ponto de montagem UEFI "
-_MntUefiBody="\nrEFInd requer /boot/efi.requere /boot/efi. Grub e systemd-boot irá trabalhar com todos."
+_MntUefiBody="\nrEFInd requer montagem em /boot/efi. systemd-boot requer montagem em /boot."
 
 # Extra Partitions
 _ExtPartTitle=" Selecionar Partições Adicionais "
@@ -308,7 +308,7 @@ _InstSysBody="\nPor favor, verifique o arquivo de configuração do syslinux.\n\
 
 # Install UEFI Bootloader - Translate
 _InstUefiBtTitle=" Instalar UEFI Bootloader "
-_InstUefiBtBody="\nrEFInd requer montagem em /boot/efi.\n\nNOTE: rEFInd com LVM não é suportado."
+_InstUefiBtBody="\nrEFInd requer montagem em /boot/efi. systemd-boot requer montagem em /boot.\n\nNOTE: rEFInd com LVM não é suportado."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Definir Grub como Bootloader por padrão? "

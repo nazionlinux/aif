@@ -273,7 +273,7 @@ _OptUefiBody="\nOpstarts indlæser(e) der senere kan installeres afhænger af hv
 
 # UEFI Mountpoint - Translate
 _MntUefiTitle=" Vælg UEFI Monterings punkt "
-_MntUefiBody="\nrEFInd fordrer /boot/efi. For Grub og systemd-boot betyder det ikke noget."
+_MntUefiBody="\nrEFInd kræver monteringspunkt /boot/efi. systemd-boot kræver monteringspunkt /boot.Grub2 har ingen foretrukken UEFI monteringspunkt."
 
 # Extra Partitions
 _ExtPartTitle=" Vælg yderligere Disk Afsnit "
@@ -315,7 +315,7 @@ _InstSysBody="\nKontroller venligst syslinux opsætnings fil.\n\nDen burde indeh
 
 # Install UEFI Bootloader - Translate
 _InstUefiBtTitle=" Installer UEFI opstarts indlæser "
-_InstUefiBtBody="\n- Grub2 og systemd-boot har ikke noget foretrukket UEFI monterings punkt.\n- rEFInd kræver monteringspunkt /boot/efi.\n\nBEMÆRK: rEFInd understøtter ikke LVM."
+_InstUefiBtBody="\nrEFInd kræver monteringspunkt /boot/efi. systemd-boot kræver monteringspunkt /boot.Grub2 har ingen foretrukken UEFI monteringspunkt.\n\nBEMÆRK: rEFInd understøtter ikke LVM."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Indstil Grub som opstarts indlæser? "

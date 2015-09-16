@@ -274,7 +274,7 @@ _OptUefiBody="\nDaha sonra kurulabilecek önyükleyici(ler) UEFI bölümünün n
 
 # UEFI Mountpoint
 _MntUefiTitle=" UEFI Bağlama Noktası Seç "
-_MntUefiBody="\nrEFInd /boot/efi'e gerek duyar."
+_MntUefiBody="\nrEFInd /boot/efi gerektirir. systemd-boot /boot gerektirir."
 
 # Extra Partitions
 _ExtPartTitle=" Ek Bölüm Seçin "
@@ -316,7 +316,7 @@ _InstSysBody="\nLütfen syslinux yapılandırma dosyasını kontrol ediniz.\n\n�
 
 # Install UEFI Bootloader
 _InstUefiBtTitle=" UEFI Açıcı Kur "
-_InstUefiBtBody="\nrEFInd /boot/efi gerektirir.\n\nNOT: rEFInd ve LVM desteklenmez."
+_InstUefiBtBody="\nrEFInd /boot/efi gerektirir. systemd-boot /boot gerektirir.\n\nNOT: rEFInd ve LVM desteklenmez."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Grub'u Öntanımlı Önyükleyici Yap? "

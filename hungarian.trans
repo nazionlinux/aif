@@ -268,7 +268,7 @@ _OptUefiBody="\nA később telepíthető rendszerbetöltők választéka függ a
  
 # UEFI Mountpoint
 _MntUefiTitle=" Válassz UEFI csatolási pontot "
-_MntUefiBody="\nA rEFInd megköveteli a /boot/efi csatolási pontot. A grub és systemd-boot mással is működhet."
+_MntUefiBody="\nA rEFInd -nak szükséges /boot/efi mappa felcsatolása. systemd-boot-nak szükséges /boot mappa felcsatolása. Grub2 működik akár."
  
 # Extra Partitions
 _ExtPartTitle=" További partíciók kiválasztása "
@@ -310,8 +310,8 @@ _InstSysBody="\nKérlek ellenőrizd a syslinux konfigurációs fájlt.\n\nTartal
  
 # Install UEFI Bootloader
 _InstUefiBtTitle=" UEFI rendszertöltő telepítése "
-_InstUefiBtBody="\n-A grub2 és a systemd-boot nem támogatja az UEFI csatolási beállítás.\n- A rEFInd -nak szükséges /boot/efi mappa felcsatolása.\n\nNOTE: A rEFInd az LVM -et nem támogatja."
- 
+_InstUefiBtBody="\nA rEFInd -nak szükséges /boot/efi mappa felcsatolása. systemd-boot-nak szükséges /boot mappa felcsatolása. Grub2 működik akár.\n\nNOTE: A rEFInd az LVM -et nem támogatja."
+
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Beállítod a Grub-ot alapértelmezett rendszertöltőnek? "
 _SetGrubDefBody="\nA Grub néhány UEFI firmware-t nem érzékel, ha csak ez az alapértelmezett rendszertöltő, nem bootoló rendszert eredményezhet\n\nSzeretnéd a Grub -ot beállítani alapértelmezett rendszertöltőnek?\n\nJavasoljuk válaszd az  'Igen' -t, főként kezdőknek. Ez bemásolja a bootolható grubx64.efi -t ,"

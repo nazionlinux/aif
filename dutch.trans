@@ -273,7 +273,7 @@ _OptUefiBody="\nDe bootlader kan later geinstalleerd worden, afhankelijk van waa
 
 # UEFI Mountpoint
 _MntUefiTitle=" Selecteer UEFI aankoppelpunt "
-_MntUefiBody="\nrEFInd vereist /boot/efi, Zowel Grub en systemd-boot zullen werken met dit aankoppelpunt."
+_MntUefiBody="\nrEFInd vereist een aankoppeling op /boot/efi. systemd-boot vereist een aankoppeling op /boot. Grub2 heeft geen voorkeur voor UEFI kink in de kabel."
 
 # Extra Partitions
 _ExtPartTitle=" Selecteer een volgende Partitie "
@@ -315,7 +315,7 @@ _InstSysBody="\nControleer het syslinux configuratiebestand aub.\n\nHet moet vol
 
 # Install UEFI Bootloader
 _InstUefiBtTitle=" Installing UEFI Bootlader "
-_InstUefiBtBody="\nGrub2 en systemd-boot hebben geen voorkeur voor UEFI aankoppeling.\n- rEFInd vereist een aankoppeling op /boot/efi. \n\nOpgelet: rEFInd met LVM is niet ondersteund."
+_InstUefiBtBody="\nrEFInd vereist een aankoppeling op /boot/efi. systemd-boot vereist een aankoppeling op /boot. Grub2 heeft geen voorkeur voor UEFI kink in de kabel.\n\nOpgelet: rEFInd met LVM is niet ondersteund."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Grub als de standaard Bootlader installeren? "

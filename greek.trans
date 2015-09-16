@@ -273,7 +273,7 @@ _OptUefiBody="\nΟ φορτωτής εκκίνησης (bootloader), ο οποί
 
 # Σημείο προσάρτησης UEFI
 _MntUefiTitle=" Επιλογή σημείου προσάρτησης UEFI "
-_MntUefiBody="\nΟ rEFInd απαιτεί /boot/efi. Ο GRUB και ο systemd-boot θα λειτουργήσουν σε όποιο σημείο προσάρτησης."
+_MntUefiBody="\nΟ rEFInd απαιτεί προσάρτηση στο /boot/efi. O systemd-boot απαιτεί προσάρτηση στο /boot. Grub2 δεν έχει καμία προτίμηση."
 
 # Επιπλέον κατατμήσεις
 _ExtPartTitle=" Επιλογή επιπλέον κατάτμησης "
@@ -315,7 +315,7 @@ _InstSysBody="\nΠαρακαλώ κάντε έλεγχο στο αρχείο ρ�
 
 # Εγκατάσταση φορτωτή εκκίνησης UEFI
 _InstUefiBtTitle=" Εγκατάσταση φορτωτή εκκίνησης UEFI "
-_InstUefiBtBody="\n- Ο GRUB2 και ο systemd-boot δεν έχουν προτιμήσεις ως προς το UEFI σημείο προσάρτησης.\n- Ο rEFInd απαιτεί προσάρτηση στο /boot/efi.\n\nΣΗΜΕΙΩΣΗ: Ο rEFInd σε συνδυασμό με LVM δεν υποστηρίζεται."
+_InstUefiBtBody="\nΟ rEFInd απαιτεί προσάρτηση στο /boot/efi. O systemd-boot απαιτεί προσάρτηση στο /boot. Grub2 δεν έχει καμία προτίμηση.\n\nΣΗΜΕΙΩΣΗ: Ο rEFInd σε συνδυασμό με LVM δεν υποστηρίζεται."
 
 # Ορισμός του UEFI GRUB ως προεπιλογή
 _SetGrubDefTitle=" Ορισμός του UEFI GRUB ως προεπιλογή; "

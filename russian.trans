@@ -272,7 +272,7 @@ _OptUefiBody="\nВозможность установки того или ино
 
 # UEFI Mountpoint
 _MntUefiTitle=" Выбор Точки Монтирования UEFI "
-_MntUefiBody="\nrEFInd требует, чтобы она была /boot/efi. Grub и systemd-boot будут работать с любой точкой монтирования."
+_MntUefiBody="\nrEFInd требует, чтобы точкой монтирования была /boot/efi. systemd-boot ребует, чтобы точкой монтирования была /boot. Grub2 не имеют особых требований к точке монтирования UEFI."
 
 # Extra Partitions
 _ExtPartTitle=" Выбор дополнительных разделов "
@@ -314,7 +314,7 @@ _InstSysBody="\nПожалуйста, проверьте файл конфигу
 
 # Install UEFI Bootloader
 _InstUefiBtTitle=" Установка Загрузчика UEFI "
-_InstUefiBtBody="\n- Grub2 и and systemd-boot не имеют особых требований к точке монтирования UEFI.\n- rEFInd требует, чтобы точкой монтирования была /boot/efi.\n\nПримечание: Совместная работа rEFInd и LVM не поддерживается."﻿
+_InstUefiBtBody="\nrEFInd требует, чтобы точкой монтирования была /boot/efi. systemd-boot ребует, чтобы точкой монтирования была /boot. Grub2 не имеют особых требований к точке монтирования UEFI.\n\nПримечание: Совместная работа rEFInd и LVM не поддерживается."﻿
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Сделать Grub загрузчиком по умолчанию? "

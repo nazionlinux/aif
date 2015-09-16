@@ -1,6 +1,6 @@
 # !/bin/bash
 #
-# Architect Installation Framework (version 1.3.1 - 12-Sept-2015)
+# Architect Installation Framework (version 1.3.2 - 16-Sept-2015)
 #
 # Written by Carl Duff for Architect Linux
 #
@@ -21,7 +21,7 @@
 ANSWER="/tmp/.aif"
 
 # Save retyping
-VERSION="Architect Installation Framework 1.3.1"
+VERSION="Architect Installation Framework 1.3.2"
 
 # Installation
 KDE_INSTALLED=0      		# Has KDE been installed? Used for display manager option
