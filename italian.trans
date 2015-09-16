@@ -272,7 +272,7 @@ _OptUefiBody="\nI bootloader che possono essere installati successivamente dipen
 
 # UEFI Mountpoint
 _MntUefiTitle="Selezionare UEFI Mountpoint"
-_MntUefiBody="\nrEFInd richiede /boot/efi."
+_MntUefiBody="\nrEFInd richiede il montaggio in /boot/efi. systemd-boot richiede il montaggio in /boot. Grub2 va bene con entrambi."
 
 # Extra Partitions
 _ExtPartTitle=" Seleziona le partizioni addizionali "
@@ -314,7 +314,7 @@ _InstSysBody="\nPrima di chiudere il file di configurazione di Syslinux si prega
 
 # Install UEFI Bootloader
 _InstUefiBtTitle=" Installa UEFI Bootloader "
-_InstUefiBtBody="\n- Grub2 & systemd-bootnon ha preferenze di mount\n- rEFInd richiede il montaggio in /boot/efi.\n\nNOTA: EFI con LVM non è supportato."
+_InstUefiBtBody="\nrEFInd richiede il montaggio in /boot/efi. systemd-boot richiede il montaggio in /boot. Grub2 va bene con entrambi.\n\nNOTA: EFI con LVM non è supportato."
 
 # Set UEFI Grub as default
 _SetGrubDefTitle=" Vuoi Configurare Grub come Bootloader predefinito? "
