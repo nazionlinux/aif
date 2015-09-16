@@ -1456,7 +1456,7 @@ uefi_bootloader() {
           
           BOOTLOADER="systemd-boot"
           # Set the loader file  
-          echo -e "default  arch\ntimeout  5" > ${MOUNTPOINT}${UEFI_MOUNT}/loader/entries/loader.conf 2>/tmp/.errlog
+          echo -e "default  arch\ntimeout  5" > ${MOUNTPOINT}${UEFI_MOUNT}/loader/loader.conf 2>/tmp/.errlog
           check_for_error
           ;;
           
