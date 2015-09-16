@@ -1456,7 +1456,7 @@ uefi_bootloader() {
           
           BOOTLOADER="systemd-boot"
           # Set the loader file  
-          echo -e "default  arch\ntimeout  5" > ${MOUNTPOINT}${UEFI_MOUNT}/loader/entries/loader.conf 2>/tmp/.errlog
+          echo -e "default  arch\ntimeout  5" > ${MOUNTPOINT}${UEFI_MOUNT}/loader/loader.conf 2>/tmp/.errlog
           check_for_error
           ;;
           
@@ -1482,7 +1482,7 @@ uefi_bootloader() {
               # Now generate config file to pass kernel parameters. Default read only (ro) changed to read-write (rw)    
               arch_chroot "refind-mkrlconf" 2>/tmp/.errlog
               check_for_error
-              sed -i 's/ro /rw /g' ${MOUNTPOINT}/boot/refind_linux.conf
+              sed -i 's/ro /rw /g' ${MOUNTPOINT}${UEFI_MOUNT}/refind_linux.conf
               BOOTLOADER="rEFInd"
            else 
               dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_RefiErrTitle" --msgbox "$_RefiErrBody" 0 0
