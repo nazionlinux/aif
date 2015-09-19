@@ -399,7 +399,7 @@ _WelBody="\nThis installer will download the latest packages from the Arch repos
 
 # Preparation Menu
 _PrepTitle=" Prepare Installation "
-_PrepBody="\nThe desktop keyboard layout will be used for both the installer and - where installing a desktop environment - the installed system.\n"
+_PrepBody="\nThe console keyboard layout will be used for both the installer and the installed system.\n"
 _PrepKBLayout="Set Desktop Keyboard Layout"
 _PrepMirror="Configure Installer Mirrorlist (optional)"
 _PrepPartDisk="Partition Disk"
@@ -414,7 +414,7 @@ _InstBootldr="Install Bootloader"
 
 # Configure Base Menu
 _ConfBseTitle=" Configure Base "
-_ConfBseBody="\nBasic configuration of the base is required. This includes setting basic networking, time, language, and keyboard defaults for the installed system."
+_ConfBseBody="\nBasic configuration of the base."
 _ConfBseFstab="Generate FSTAB"
 _ConfBseHost="Set Hostname"
 _ConfBseTime="Set Timezone"

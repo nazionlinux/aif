@@ -309,7 +309,8 @@ mirror_by_country() {
     mv -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
     mv -f ${MIRROR_TEMP} /etc/pacman.d/mirrorlist
     chmod +r /etc/pacman.d/mirrorlist
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --msgbox "$_MirrorGenDone" 0 0
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --infobox "$_Done" 0 0
+	sleep 2
  else
     prep_menu
  fi
@@ -332,13 +333,12 @@ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorlistTitle" \
              cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
              rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist 2>/tmp/.errlog
              check_for_error
-             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --msgbox "$_MirrorRankDone" 0 0
-             nano /etc/pacman.d/mirrorlist
+             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --infobox "$_Done" 0 0
+			 sleep 2
              ;;
          "4") if [[ -e /etc/pacman.d/mirrorlist.orig ]]; then       
 				 mv -f /etc/pacman.d/mirrorlist.orig /etc/pacman.d/mirrorlist
 				 dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --msgbox "$_MirrorRestDone" 0 0
-				 nano /etc/pacman.d/mirrorlist
 		      else
 		         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MirrorNoneTitle" --msgbox "$_MirrorNoneBody" 0 0
 		      fi
