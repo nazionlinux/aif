@@ -8,7 +8,7 @@
 ##
 
 # Done!
-_DoneMsg="\nDone!\n"
+_DoneMsg="\nDone!\n\n"
 
 # Autopartition
 _AutoPartBody1="Warning: ALL data on"
