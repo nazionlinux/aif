@@ -7,6 +7,9 @@
 ##
 ##
 
+# Done!
+_DoneMsg="\nDone!\n"
+
 # Autopartition
 _AutoPartBody1="Warning: ALL data on"
 _AutoPartBIOSBody2="will be destroyed.\n\nA single partition using all available space will be created. If intending to use SWAP, select the 'Swap File' option when mounting.\n\nDo you wish to continue? "
