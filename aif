@@ -246,7 +246,7 @@ check_for_error() {
 # Ensure that a partition is mounted
 check_mount() {
 
-    if [[ $(ls ${MOUNTPOINT}) == "" ]]; then
+    if [[ $(lsblk -o MOUNTPOINT | grep ${MOUNTPOINT}) == "" ]]; then
        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ErrTitle" --msgbox "$_ErrNoMount" 0 0
        main_menu_online
     fi
