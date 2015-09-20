@@ -1,6 +1,6 @@
 # !/bin/bash
 #
-# Architect Installation Framework (version 1.4 - 19-Sept-2015)
+# Architect Installation Framework (version 1.4 - 20-Sept-2015)
 #
 # Written by Carl Duff for Architect Linux
 #
@@ -21,7 +21,7 @@
 ANSWER="/tmp/.aif"
 
 # Save retyping
-VERSION="Architect Installation Framework 1.3.4"
+VERSION="Architect Installation Framework 1.4"
 
 # Installation
 KDE_INSTALLED=0      		# Has KDE been installed? Used for display manager option
@@ -74,7 +74,9 @@ VG_SIZE_TYPE=""         	# Is VG in Gigabytes or Megabytes?
 # Installation
 MOUNTPOINT="/mnt"       	# Installation
 MOUNT_TYPE=""           	# "/dev/" for standard partitions, "/dev/mapper" for LVM
-F2FS=0                      # F2FS FS used?
+BTRFS=0                     # BTRFS used? "1" = btrfs alone, "2" = btrfs + subvolume(s)
+BTRFS_OPTS="/tmp/.btrfs_opts" #BTRFS Mount options
+BTRFS_MNT=""                # used for syslinux where /mnt is a btrfs subvolume
 
 # Language Support
 CURR_LOCALE="en_US.UTF-8"   # Default Locale
@@ -596,11 +598,23 @@ umount_partitions(){
 
 # Adapted from AIS
 confirm_mount() {
-    if [[ $(mount | grep $1) ]]; then
+    if [[ $(mount | grep $1) ]]; then   
       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MntStatusTitle" --infobox "$_MntStatusSucc" 0 0
       sleep 2
       PARTITIONS="$(echo $PARTITIONS | sed s/${PARTITION}$' -'//)"
       NUMBER_PARTITIONS=$(( NUMBER_PARTITIONS - 1 ))
+    else
+      dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MntStatusTitle" --infobox "$_MntStatusFail" 0 0
+      sleep 2
+      prep_menu
+    fi
+}
+
+# btrfs specific for subvolumes
+confirm_mount_btrfs() {
+    if [[ $(mount | grep $1) ]]; then
+      dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MntStatusTitle" --infobox "$_MntStatusSucc\n$(cat ${BTRFS_OPTS})",subvol="${BTRFS_MSUB_VOL}\n\n" 0 0
+      sleep 2
     else
       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MntStatusTitle" --infobox "$_MntStatusFail" 0 0
       sleep 2
@@ -771,46 +785,58 @@ find_partitions() {
 # partially because some don't seem to be viable.
 select_filesystem(){
 
-F2FS=0
+# Clear special FS type flags
+BTRFS=0
 
 dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_FSTitle" \
-    --menu "$_FSBody" 0 0 11 \
+    --menu "$_FSBody" 0 0 12 \
  	"1" "$_FSSkip" \
-	"2" $"ext2" \
- 	"3" $"ext3" \
-	"4" $"ext4" \
-	"5" $"f2fs" \
-	"6" $"jfs" \
- 	"7" $"nilfs2" \
-	"8" $"ntfs" \
-	"9" $"reiserfs" \
- 	"10" $"vfat" \
-	"11" $"xfs" 2>${ANSWER}	
+ 	"2" $"btrfs" \
+	"3" $"ext2" \
+ 	"4" $"ext3" \
+	"5" $"ext4" \
+	"6" $"f2fs" \
+	"7" $"jfs" \
+ 	"8" $"nilfs2" \
+	"9" $"ntfs" \
+	"10" $"reiserfs" \
+ 	"11" $"vfat" \
+	"12" $"xfs" 2>${ANSWER}	
 
     case $(cat ${ANSWER}) in
         "1") FILESYSTEM="skip"
              ;;
-        "2") FILESYSTEM="mkfs.ext2 -F"
+        "2") FILESYSTEM="mkfs.btrfs -f"
+             modprobe btrfs
+             
+             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsSVTitle" --yesno "$_btrfsSVBody" 0 0
+             if [[ $? -eq 0 ]];then
+				BTRFS=2
+		     else
+                BTRFS=1
+             fi
+             
              ;;
-        "3") FILESYSTEM="mkfs.ext3 -F"
+        "3") FILESYSTEM="mkfs.ext2 -F"
+             ;;
+        "4") FILESYSTEM="mkfs.ext3 -F"
              ;;            
-        "4") FILESYSTEM="mkfs.ext4 -F"
+        "5") FILESYSTEM="mkfs.ext4 -F"
              ;;
-        "5") FILESYSTEM="mkfs.f2fs"
+        "6") FILESYSTEM="mkfs.f2fs"
              modprobe f2fs
-             F2FS=1
              ;;
-        "6") FILESYSTEM="mkfs.jfs -q"
+        "7") FILESYSTEM="mkfs.jfs -q"
              ;;
-        "7") FILESYSTEM="mkfs.nilfs2 -f"
+        "8") FILESYSTEM="mkfs.nilfs2 -f"
              ;;  
-        "8") FILESYSTEM="mkfs.ntfs -q"
+        "9") FILESYSTEM="mkfs.ntfs -q"
              ;;  
-        "9") FILESYSTEM="mkfs.reiserfs -f -f"
+        "10") FILESYSTEM="mkfs.reiserfs -f -f"
              ;;  
-       "10") FILESYSTEM="mkfs.vfat -F32"
+       "11") FILESYSTEM="mkfs.vfat -F32"
              ;;  
-       "11") FILESYSTEM="mkfs.xfs -f"
+       "12") FILESYSTEM="mkfs.xfs -f"
              ;;      
           *) prep_menu
              ;;
@@ -826,6 +852,129 @@ set_mount_type() {
 
 [[ $(echo ${PARTITION} | grep 'sd\|hd\|vd[a-z][1-99]') != "" ]] && MOUNT_TYPE="/dev/" || MOUNT_TYPE="/dev/mapper/"
 	
+}
+
+btrfs_subvols() {
+
+ BTRFS_MSUB_VOL=""
+ BTRFS_OSUB_VOL=""
+ BTRFS_MNT=""
+ BTRFS_VOL_LIST="/tmp/.vols"
+ echo "" > ${BTRFS_VOL_LIST}
+ BTRFS_OSUB_NUM=1
+ 
+ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsSVTitle" --inputbox "$_btrfsMSubBody1 ${MOUNTPOINT}${MOUNT} $_btrfsMSubBody2" 0 0 "" 2>${ANSWER} || select_filesystem
+ BTRFS_MSUB_VOL=$(cat ${ANSWER})
+ # if root, then create boot flag for syslinux, systemd-boot and rEFInd bootloaders	
+ [[ ${MOUNT} == "" ]] && BTRFS_MNT="rootflags=subvol="$BTRFS_MSUB_VOL
+
+ # Loop while subvolume is blank or has spaces.
+ while [[ ${#BTRFS_MSUB_VOL} -eq 0 ]] || [[ $BTRFS_MSUB_VOL =~ \ |\' ]]; do
+       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsSVErrTitle" --inputbox "$_btrfsSVErrBody" 0 0 "" 2>${ANSWER} || select_filesystem
+       BTRFS_MSUB_VOL=$(cat ${ANSWER})
+       # if root, then create flag for syslinux
+       [[ ${MOUNT} == "" ]] && BTRFS_MNT="rootflags=subvol="$BTRFS_MSUB_VOL
+ done
+ 
+ # change dir depending on whether root partition or not
+ [[ ${MOUNT} == "" ]] && cd ${MOUNTPOINT} || cd ${MOUNTPOINT}${MOUNT} 2>/tmp/.errlog
+ btrfs subvolume create ${BTRFS_MSUB_VOL} 2>>/tmp/.errlog
+ cd
+ umount ${MOUNT_TYPE}${PARTITION} 2>>/tmp/.errlog
+ check_for_error
+ 
+ # Get any mount options and mount
+ btrfs_mount_opts
+ if [[ $(cat ${BTRFS_OPTS}) != "" ]]; then
+	[[ ${MOUNT} == "" ]] && mount -o $(cat ${BTRFS_OPTS})",subvol="${BTRFS_MSUB_VOL} ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT} 2>/tmp/.errlog || mount -o $(cat ${BTRFS_OPTS})",subvol="${BTRFS_MSUB_VOL} ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT}${MOUNT} 2>/tmp/.errlog
+ else
+    [[ ${MOUNT} == "" ]] &&	mount -o "subvol="${BTRFS_MSUB_VOL} ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT} 2>/tmp/.errlog || mount -o "subvol="${BTRFS_MSUB_VOL} ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT}${MOUNT} 2>/tmp/.errlog
+ fi
+ 
+ # Check for error and confirm successful mount
+ check_for_error  
+ [[ ${MOUNT} == "" ]] && confirm_mount_btrfs ${MOUNTPOINT} || confirm_mount_btrfs ${MOUNTPOINT}${MOUNT}
+ 
+ # Now create the subvolumes   
+ [[ ${MOUNT} == "" ]] && cd ${MOUNTPOINT} || cd ${MOUNTPOINT}${MOUNT} 2>/tmp/.errlog
+ check_for_error
+ 
+ # Loop while the termination character has not been entered
+ while [[ $BTRFS_OSUB_VOL != "*" ]]; do
+	dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsSVTitle ($BTRFS_MSUB_VOL) " --inputbox "$_btrfsSVBody1 $BTRFS_OSUB_NUM $_btrfsSVBody2 $BTRFS_MSUB_VOL.$_btrfsSVBody3 $(cat ${BTRFS_VOL_LIST})" 0 0 "" 2>${ANSWER} || select_filesystem
+	BTRFS_OSUB_VOL=$(cat ${ANSWER})	
+
+    # Loop while subvolume is blank or has spaces.
+    while [[ ${#BTRFS_OSUB_VOL} -eq 0 ]] || [[ $BTRFS_SUB_VOL =~ \ |\' ]]; do
+       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsSVErrTitle ($BTRFS_MSUB_VOL) " --inputbox "$_btrfsSVErrBody ($BTRFS_OSUB_NUM)." 0 0 "" 2>${ANSWER} || select_filesystem
+       BTRFS_OSUB_VOL=$(cat ${ANSWER})
+    done
+ 
+    btrfs subvolume create ${BTRFS_OSUB_VOL} 2>/tmp/.errlog 
+    check_for_error
+    BTRFS_OSUB_NUM=$(( BTRFS_OSUB_NUM + 1 ))
+    echo $BTRFS_OSUB_VOL" " >> ${BTRFS_VOL_LIST}
+ done
+ 
+ # Show the subvolumes created
+ echo -e "btrfs subvols:\n" > /tmp/.subvols
+ ls  >> /tmp/.subvols
+ dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --textbox /tmp/.subvols 0 0
+ cd
+}
+
+# This function allows for btrfs-specific mounting options to be applied. Written as a seperate function
+# for neatness.
+btrfs_mount_opts() {
+
+	echo "" > ${BTRFS_OPTS}
+
+	dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsMntTitle" --checklist "$_btrfsMntBody" 0 0 16 \
+	"1" "autodefrag" off \
+	"2" "compress=zlib" off \
+	"3" "compress=lzo" off \
+	"4" "compress=no" off \
+	"5" "compress-force=zlib" off \
+	"6" "compress-force=lzo" off \
+	"7" "discard" off \
+	"8" "noacl" off \
+    "9" "noatime" off \
+   "10" "nodatasum" off \
+   "11" "nospace_cache" off \
+   "12" "recovery" off \
+   "13" "skip_balance" off \
+   "14" "space_cache" off  \
+   "15" "ssd" off \
+   "16" "ssd_spread" off 2>${BTRFS_OPTS}
+ 
+   # Double-digits first       
+   sed -i 's/10/nodatasum,/' ${BTRFS_OPTS}
+   sed -i 's/11/nospace_cache,/' ${BTRFS_OPTS}
+   sed -i 's/12/recovery,/' ${BTRFS_OPTS}
+   sed -i 's/13/skip_balance,/' ${BTRFS_OPTS}
+   sed -i 's/14/space_cache,/' ${BTRFS_OPTS}
+   sed -i 's/15/ssd,/' ${BTRFS_OPTS}
+   sed -i 's/16/ssd_spread,/' ${BTRFS_OPTS}
+   # then single digits
+   sed -i 's/1/autodefrag,/' ${BTRFS_OPTS}
+   sed -i 's/2/compress=zlib,/' ${BTRFS_OPTS}
+   sed -i 's/3/compress=lzo,/' ${BTRFS_OPTS}
+   sed -i 's/4/compress=no,/' ${BTRFS_OPTS}
+   sed -i 's/5/compress-force=zlib,/' ${BTRFS_OPTS}
+   sed -i 's/6/compress-force=lzo,/' ${BTRFS_OPTS}
+   sed -i 's/7/noatime,/' ${BTRFS_OPTS}
+   sed -i 's/8/noacl,/' ${BTRFS_OPTS}
+   sed -i 's/9/noatime,/' ${BTRFS_OPTS}
+   # Now clean up the file
+   sed -i 's/ //g' ${BTRFS_OPTS}
+   sed -i '$s/,$//' ${BTRFS_OPTS}
+
+   
+   if [[ $(cat ${BTRFS_OPTS}) != "" ]]; then
+	  dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsMntTitle" --yesno "$_btrfsMntConfBody $(cat $BTRFS_OPTS)\n" 0 0 
+	  [[ $? -eq 1 ]] && btrfs_mount_opts
+   fi  
+
 }
 
     # LVM Detection. If detected, activate.
@@ -861,10 +1010,24 @@ set_mount_type() {
 	[[ $FILESYSTEM != "skip" ]] && ${FILESYSTEM} ${MOUNT_TYPE}${PARTITION} >/dev/null 2>/tmp/.errlog
 	check_for_error
 	
+	# Make the root directory
 	mkdir -p ${MOUNTPOINT} 2>/tmp/.errlog
-	mount ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT} 2>>/tmp/.errlog
+
+    # If btrfs without subvolumes has been selected, get the mount options
+    [[ $BTRFS -eq 1 ]] && btrfs_mount_opts
+    
+    # If btrfs has been selected without subvolumes - and at least one btrfs mount option selected - then
+	# mount with options. Otherwise, basic mount.
+	if [[ $BTRFS -eq 1 ]] && [[ $(cat ${BTRFS_OPTS}) != "" ]]; then
+	   mount -o $(cat ${BTRFS_OPTS}) ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT} 2>>/tmp/.errlog
+	else
+	   mount ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT} 2>>/tmp/.errlog
+    fi
+	  
+	# Check for error, confirm mount, and deal with BTRFS with subvolumes if applicable  
 	check_for_error
     confirm_mount ${MOUNTPOINT}
+    [[ $BTRFS -eq 2 ]] && btrfs_subvols
 	
 	# Identify and create swap, if applicable
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_SelSwpTitle" --menu "$_SelSwpBody" 0 0 4 "$_SelSwpNone" $"-" "$_SelSwpFile" $"-" ${PARTITIONS} 2>${ANSWER} || prep_menu  
@@ -904,9 +1067,7 @@ set_mount_type() {
        fi
        check_for_error
        
-       # Inform users of the mountpoint options and consequences
-       #dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_OptUefiTitle" --msgbox "$_OptUefiBody" 0 0
-       
+       # Inform users of the mountpoint options and consequences       
        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_MntUefiTitle" --menu "$_MntUefiBody"  0 0 2 \
  	   "1" $"/boot" \
 	   "2" $"/boot/efi" 2>${ANSWER}
@@ -965,16 +1126,28 @@ set_mount_type() {
 
                 # Create directory and mount. This step will only be reached where the loop has been skipped or broken.
                 mkdir -p ${MOUNTPOINT}${MOUNT} 2>/tmp/.errlog
-                mount  ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT}${MOUNT} 2>/tmp/.errlog
-                check_for_error
-                confirm_mount ${MOUNTPOINT}${MOUNT}
+                
+                # If btrfs without subvolumes has been selected, get the mount options
+                [[ $BTRFS -eq 1 ]] && btrfs_mount_opts
+    
+                # If btrfs has been selected without subvolumes - and at least one btrfs mount option selected - then
+	            # mount with options. Otherwise, basic mount.
+	            if [[ $BTRFS -eq 1 ]] && [[ $(cat ${BTRFS_OPTS}) != "" ]]; then
+					mount -o $(cat ${BTRFS_OPTS}) ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT}${MOUNT} 2>>/tmp/.errlog
+				else
+					mount ${MOUNT_TYPE}${PARTITION} ${MOUNTPOINT}${MOUNT} 2>>/tmp/.errlog
+				fi
+	  
+				# Check for error, confirm mount, and deal with BTRFS with subvolumes if applicable  
+				check_for_error
+				confirm_mount ${MOUNTPOINT}${MOUNT}
+				[[ $BTRFS -eq 2 ]] && btrfs_subvols
                 
                 # Determine if a seperate /boot is used, and if it is LVM or not
                 LVM_SEP_BOOT=0
                 if [[ $MOUNT == "/boot" ]]; then
                    [[ $MOUNT_TYPE == "/dev/" ]] && LVM_SEP_BOOT=1 || LVM_SEP_BOOT=2
-                fi
-                                  
+                fi                   
              fi
        done
 }	
@@ -1255,29 +1428,26 @@ install_base() {
     case $(cat ${ANSWER}) in
         "1") # Latest Kernel
              clear
-             pacstrap ${MOUNTPOINT} base btrfs-progs ntp sudo 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} base btrfs-progs ntp sudo f2fs-tools 2>/tmp/.errlog
              ;;
         "2") # Latest Kernel and base-devel
              clear
-             pacstrap ${MOUNTPOINT} base base-devel btrfs-progs ntp sudo 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} base base-devel btrfs-progs ntp sudo f2fs-tools 2>/tmp/.errlog
              ;;
         "3") # LTS Kernel
              clear
-             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs btrfs-progs ntp sudo 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs btrfs-progs ntp sudo f2fs-tools 2>/tmp/.errlog
              [[ $? -eq 0 ]] && LTS=1
              ;;
         "4") # LTS Kernel and base-devel
              clear
-             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs base-devel btrfs-progs ntp sudo 2>/tmp/.errlog
+             pacstrap ${MOUNTPOINT} bash bzip2 coreutils cryptsetup device-mapper dhcpcd diffutils e2fsprogs file filesystem findutils gawk gcc-libs gettext glibc grep gzip inetutils iproute2 iputils jfsutils less licenses linux-lts logrotate lvm2 man-db man-pages mdadm nano netctl pacman pciutils pcmciautils perl procps-ng psmisc reiserfsprogs s-nail sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux vi which xfsprogs base-devel btrfs-progs ntp sudo f2fs-tools 2>/tmp/.errlog
              [[ $? -eq 0 ]] && LTS=1
              ;;
           *) install_base_menu
              ;;
     esac  	
-    
-    # If F2FS FS used, install the tools
-    [[ F2FS -eq 1 ]] && pacstrap ${MOUNTPOINT} f2fs-tools 2>>/tmp/.errlog
-    
+     
     # If the virtual console has been set, then copy config file to installation
     [[ -e /tmp/vconsole.conf ]] && cp /tmp/vconsole.conf ${MOUNTPOINT}/etc/vconsole.conf 2>>/tmp/.errlog
     check_for_error
@@ -1341,15 +1511,16 @@ bios_bootloader() {
              arch_chroot "syslinux-install_update -iam" 2>>/tmp/.errlog
              check_for_error
              
-             # Append configuration file depending on whether lvm used or not for root.
+             # Amend configuration file depending on whether lvm used or not for root.
              if [[ $LVM_ROOT -eq 0 ]]; then
                 sed -i "s/sda[0-9]/${ROOT_PART}/g" ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
              else
                 sed -i "s/APPEND.*/APPEND root=\/dev\/mapper\/${ROOT_PART} rw/g" ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
              fi
              
-             # If the LTS kernel has been installed amend the config file accordingly
+             # Amend configuration file for LTS kernel and/or btrfs subvolume as root
              [[ $LTS -eq 1 ]] && sed -i 's/linux/linux-lts/g' ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
+             [[ $BTRFS_MNT != "" ]] && sed -i "s/rw/rw $BTRFS_MNT/g" ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
              
              if [[ $LVM_ROOT -eq 0 ]]; then
                 dialog --title "$_InstSysTitle" --msgbox "$_InstSysBody APPEND root=/dev/$ROOT_PART rw\n" 0 0
@@ -1420,10 +1591,13 @@ uefi_bootloader() {
               
               check_for_error
               
-              # Now generate config file to pass kernel parameters. Default read only (ro) changed to read-write (rw)    
+              # Now generate config file to pass kernel parameters. Default read only (ro) changed to read-write (rw),
+              # and amend where using btfs subvol root       
               arch_chroot "refind-mkrlconf" 2>/tmp/.errlog
               check_for_error
               sed -i 's/ro /rw /g' ${MOUNTPOINT}/boot/refind_linux.conf
+              [[ $BTRFS_MNT != "" ]] && sed -i "s/rw/rw $BTRFS_MNT/g" ${MOUNTPOINT}/boot/refind_linux.conf
+              
               BOOTLOADER="rEFInd"
            else 
               dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_RefiErrTitle" --msgbox "$_RefiErrBody" 0 0
@@ -1451,8 +1625,9 @@ uefi_bootloader() {
             echo -e "title\tArch Linux\nlinux\t/vmlinuz-linux\ninitrd\t/initramfs-linux.img\noptions\troot=PARTUUID=${sysdb_root} rw" > ${MOUNTPOINT}${UEFI_MOUNT}/loader/entries/arch.conf
           fi
           
-          # Fix LVM Root installations
-          [[ $LVM_ROOT -eq 1 ]] && sed -i "s/PARTUUID=//g" ${MOUNTPOINT}${UEFI_MOUNT}/loader/entries/arch.conf
+          # Fix LVM Root installations, and deal with btrfs root subvolume mounting
+          [[ $LVM_ROOT -eq 1 ]] && sed -i "s/PARTUUID=//g" ${MOUNTPOINT}/boot/loader/entries/arch.conf
+          [[ $BTRFS_MNT != "" ]] && sed -i "s/rw/rw $BTRFS_MNT/g" ${MOUNTPOINT}/boot/loader/entries/arch.conf
           
           BOOTLOADER="systemd-boot"
           # Set the loader file  
@@ -1460,36 +1635,6 @@ uefi_bootloader() {
           check_for_error
           ;;
           
-      "3") # rEFInd
-           # Ensure that UEFI partition has been mounted to /boot/efi due to bug in script. Could "fix" it for installation, but
-           # This could result in unknown consequences should the script be updated at some point.
-           if [[ $UEFI_MOUNT == "/boot/efi" ]]; then      
-              clear
-              pacstrap ${MOUNTPOINT} refind-efi efibootmgr dosfstools 2>/tmp/.errlog
-              check_for_error   
-              dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_SetRefiDefTitle" --yesno "$_SetRefiDefBody ${UEFI_MOUNT}/EFI/boot $_SetRefiDefBody2" 0 0
-              
-              if [[ $? -eq 0 ]]; then
-                 clear
-                 arch_chroot "refind-install --usedefault ${UEFI_PART} --alldrivers" 2>/tmp/.errlog
-              else   
-                 clear
-                 arch_chroot "refind-install" 2>/tmp/.errlog
-              fi   
-              
-              check_for_error
-              
-              # Now generate config file to pass kernel parameters. Default read only (ro) changed to read-write (rw)    
-              arch_chroot "refind-mkrlconf" 2>/tmp/.errlog
-              check_for_error
-              sed -i 's/ro /rw /g' ${MOUNTPOINT}${UEFI_MOUNT}/refind_linux.conf
-              BOOTLOADER="rEFInd"
-           else 
-              dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_RefiErrTitle" --msgbox "$_RefiErrBody" 0 0
-              uefi_bootloader
-           fi
-           ;;
-      
       *) install_base_menu
          ;;
       esac 
