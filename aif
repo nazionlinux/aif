@@ -872,7 +872,7 @@ btrfs_subvols() {
  while [[ ${#BTRFS_MSUB_VOL} -eq 0 ]] || [[ $BTRFS_MSUB_VOL =~ \ |\' ]]; do
        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_btrfsSVErrTitle" --inputbox "$_btrfsSVErrBody" 0 0 "" 2>${ANSWER} || select_filesystem
        BTRFS_MSUB_VOL=$(cat ${ANSWER})
-       # if root, then create flag for syslinux
+       # if root, then create flag for syslinux, systemd-boot and rEFInd bootloaders
        [[ ${MOUNT} == "" ]] && BTRFS_MNT="rootflags=subvol="$BTRFS_MSUB_VOL
  done
  
@@ -1521,12 +1521,6 @@ bios_bootloader() {
              # Amend configuration file for LTS kernel and/or btrfs subvolume as root
              [[ $LTS -eq 1 ]] && sed -i 's/linux/linux-lts/g' ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
              [[ $BTRFS_MNT != "" ]] && sed -i "s/rw/rw $BTRFS_MNT/g" ${MOUNTPOINT}/boot/syslinux/syslinux.cfg
-             
-             if [[ $LVM_ROOT -eq 0 ]]; then
-                dialog --title "$_InstSysTitle" --msgbox "$_InstSysBody APPEND root=/dev/$ROOT_PART rw\n" 0 0
-             else
-                dialog --title "$_InstSysTitle" --msgbox "$_InstSysBody APPEND root=/dev/mapper/$ROOT_PART rw\n" 0 0
-             fi
              
              BOOTLOADER="Syslinux"
              ;;
