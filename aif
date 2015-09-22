@@ -1884,7 +1884,7 @@ install_gc() {
     if [[ $GC_DETECTED == "Unknown" ]]; then
        gc_driver_menu
     else
-       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $GC_DETECTED $_GCDetTitle " --yesno "${GRAPHIC_CARD}\n$_GCDetBody$GC_DETECTED?\n\n$_GCDetBody2" 0 0 && install_gc || gc_driver_menu
+       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $GC_DETECTED $_GCDetTitle " --yesno "${GRAPHIC_CARD}\n$_GCDetBody $GC_DETECTED?\n\n$_GCDetBody2" 0 0 && install_gc || gc_driver_menu
     fi
 
 }
