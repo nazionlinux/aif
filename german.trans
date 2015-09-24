@@ -130,7 +130,7 @@ _ChkTitle=" Überprüfe technische Anforderungen "
 _ChkBody="\nÜberprüfen der Internetverbindung und ob der Installer als root ausgeführt wurde. Bitte warten...\n\n"
 _RtFailTitle=" Root FEHLER "
 
-_RtFailBody="\nDer Installer muss als "root" ausgeführt werden. Abbruch.\n\n"
+_RtFailBody="\nDer Installer muss als 'root' ausgeführt werden. Abbruch.\n\n"
 _ConFailTitle=" Internet Verbindungsfehler "
 
 _ConFailBody="\nInternet Verbindungstest fehlgeschlagen. Abbruch.\n\n"
@@ -190,7 +190,7 @@ _HwLocal="Local Time"
 # Generate FSTAB 
 
 _FstabTitle=" Erstelle FSTAB "
-_FstabBody="\nDie Datei FSTAB (File System TABle) definiert welche Laufwerke/Geräte und Partitionen wie und wo gemounted (eingebunden) bzw. verwendet werden.\n\nUUID/PARTUUID (Universally Unique IDentifier) wird empfohlen.\n\nWenn kein "Label" für die Partitionen vergeben wurde, wird der Geräte Name verwendet. "
+_FstabBody="\nDie Datei FSTAB (File System TABle) definiert welche Laufwerke/Geräte und Partitionen wie und wo gemounted (eingebunden) bzw. verwendet werden.\n\nUUID/PARTUUID (Universally Unique IDentifier) wird empfohlen.\n\nWenn kein 'Label' für die Partitionen vergeben wurde, wird der Geräte Name verwendet. "
 _FstabDev="Dev (Partition code)"
 _FstabLabel="Label (frei wählbar)"
 _FstabUUID="UUID/PARTUUID (unique code)"
@@ -248,7 +248,7 @@ _DevSelGrubTitle=" Wähle Gerät für die Grub Installation "
 
 # Partitioning Tool - Translate
 _PartToolTitle=" Partitionierungs Tool "
-_PartToolBody="\nFür Anfänger ist eine Auto-Partitionierungs Option verfügbar. CFDisk wird empfohlen für BIOS, Parted für UEFI.\n\nNiemals ein UEFI/GPT  "only" Partitionierungstool für ein BIOS/MBR System verwenden! Sonst können Fehler die das System unbrauchbar machen entstehen."
+_PartToolBody="\nFür Anfänger ist eine Auto-Partitionierungs Option verfügbar. CFDisk wird empfohlen für BIOS, Parted für UEFI.\n\nNiemals ein UEFI/GPT 'only' Partitionierungstool für ein BIOS/MBR System verwenden! Sonst können Fehler die das System unbrauchbar machen entstehen."
 
 # UEFI Partitioning Error
 _UefiPartErrTitle=" UEFI Partitionierung FEHLER " 
@@ -304,7 +304,7 @@ _ExtErrTitle=" Partitionierung: Name FEHLER "
 _ExtErrBody="\nPartition kann nicht gemounted werden. Der Name muss mit einem Slash (-) anfangen z.B. /dev/sda1.\n\n"
 
 # Install Base
-_InstBseTitle=" Installiere "Base" Pakete "
+_InstBseTitle=" Installiere 'Base' Pakete "
 _InstBseBody="\nDer aktuellste Linuxkernel unterstützt die neueste Hardware. Der LTS Kernel (Long-Time-Support) ist dafür stabiler und wird wesentlich länger supported.\n\nDie base-devel Pakete Gruppe wird für das Arch User Repository (AUR) benötigt."
 _InstBaseLK="Aktuellsten Linux Kernel"
 _InstBaseLKBD="Aktuellsten Linux Kernel & base-devel Paketgruppe"
@@ -374,7 +374,7 @@ _InstDEBody="\nDie Desktop Umgebungen stehen in der Liste zuerst, manche haben m
 
 # Install Common Packages
 _InstComTitle=" Common Packages Installieren ? "
-_InstComBody="\nManche Desktop-Umgebungen benötigen diese "common files" z.B. für Nutzerrechte usw., Erstellung des "home" Ordners und Dateimanager Funktionalität.\n\nenthaltene Pakete: xdg-user-dirs, gksu, gnome-keyring, polkit, gvfs, and the gnome-icon-theme, etc. Wer den "full KDE desktop" installiert wird diese Pakete nicht benötigen.\n\nPakete installieren? Diese Abfrage erscheint nur ein mal.\n\n"
+_InstComBody="\nManche Desktop-Umgebungen benötigen diese 'common files' z.B. für Nutzerrechte usw., Erstellung des 'home' Ordners und Dateimanager Funktionalität.\n\nenthaltene Pakete: xdg-user-dirs, gksu, gnome-keyring, polkit, gvfs, and the gnome-icon-theme, etc. Wer den 'full KDE desktop' installiert wird diese Pakete nicht benötigen.\n\nPakete installieren? Diese Abfrage erscheint nur ein mal.\n\n"
 
 # DM Enabled
 _DmDoneTitle="Installiert "
@@ -405,7 +405,7 @@ _WelBody="\nDer Installer wird die aktuellen Pakete von den Arch Repositories do
 
 # Preparation Menu
 _PrepTitle=" Vorbereitungen für die Installation "
-_PrepBody="\nDie Tastaturbelegung der Konsole "keyboard layout" wird für den Installer und das installierte System verwendet.\n"
+_PrepBody="\nDie Tastaturbelegung der Konsole 'keyboard layout' wird für den Installer und das installierte System verwendet.\n"
 _PrepKBLayout="Wähle Desktop Keyboard Layout"
 _PrepMirror="Konfigurieren der Installer Mirrorlist (optional)"
 _PrepPartDisk="Partitionierung der Laufwerke"
@@ -414,7 +414,7 @@ _Back="zurück"
 
 # Install Base Menu
 _InstBsMenuTitle=" Installiere Base "
-_InstBseMenuBody="\nEs ist nicht notwendig den Bootloader Grub 2x zu installieren, ein Grub update auf einer vorhandenen Installation wird empfohlen.
+_InstBseMenuBody="\nEs ist nicht notwendig den Bootloader Grub 2x zu installieren, ein Grub update auf einer vorhandenen Installation wird empfohlen."
 _InstBse="Installiere Base"
 _InstBootldr="Installiere Bootloader"
 
