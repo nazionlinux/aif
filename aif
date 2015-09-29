@@ -489,8 +489,7 @@ set_hostname() {
 
    echo "$HOST_NAME" > ${MOUNTPOINT}/etc/hostname 2>/tmp/.errlog
    check_for_error
-   sed -i "/127.0.0.1/s/$/ ${HOST_NAME}/" ${MOUNTPOINT}/etc/hosts
-   sed -i "/::1/s/$/ ${HOST_NAME}/" ${MOUNTPOINT}/etc/hosts
+   sed -i "s/localhost.*/localhost ${HOST_NAME}/g" ${MOUNTPOINT}/etc/hosts
 }
 
 # Adapted and simplified from the Manjaro 0.8 and Antergos 2.0 installers
