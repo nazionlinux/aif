@@ -49,7 +49,6 @@ SHOW_ONCE=0           		# Show de_wm information only once
 
 # Architecture
 ARCHI=`uname -m`     		# Display whether 32 or 64 bit system
-UEFI=0               		# Is the system UEFI?
 SYSTEM="Unknown"     		# Display whether system is BIOS or UEFI. Default is "unknown"
 ROOT_PART=""          		# ROOT partition
 UEFI_PART=""				# UEFI partition
@@ -211,10 +210,8 @@ id_system() {
       if [[ -z $(mount | grep /sys/firmware/efi/efivars) ]]; then
         mount -t efivarfs efivarfs /sys/firmware/efi/efivars
       fi
-      UEFI=1
       SYSTEM="UEFI"
     else
-      UEFI=0
       SYSTEM="BIOS"
     fi
          
@@ -465,7 +462,7 @@ generate_fstab() {
              ;;
         "2") genfstab -L -p ${MOUNTPOINT} >> ${MOUNTPOINT}/etc/fstab 2>/tmp/.errlog
              ;;
-        "3") if [[ $UEFI -eq 1 ]]; then
+        "3") if [[ $SYSTEM == "UEFI" ]]; then
                 genfstab -t PARTUUID -p ${MOUNTPOINT} >> ${MOUNTPOINT}/etc/fstab 2>/tmp/.errlog
              else 
                 genfstab -U -p ${MOUNTPOINT} >> ${MOUNTPOINT}/etc/fstab 2>/tmp/.errlog
@@ -683,7 +680,7 @@ delete_partitions(){
  part_table=$(parted -s ${DEVICE} print | grep -i 'partition table' | awk '{print $3}')
 
  # Autopartition for BIOS systems 
- if [[ $UEFI -eq 0 ]]; then
+ if [[ $SYSTEM == "BIOS" ]]; then
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Auto-Partition (BIOS/MBR) " --yesno "$_AutoPartBody1 $DEVICE $_AutoPartBIOSBody2" 0 0
 	
 	if [[ $? -eq 0 ]]; then
@@ -770,12 +767,12 @@ find_partitions() {
     done
     
     # Deal with incorrect partitioning
-    if [[ $NUMBER_PARTITIONS -lt 2 ]] && [[ $UEFI -eq 1 ]]; then
+    if [[ $NUMBER_PARTITIONS -lt 2 ]] && [[ $SYSTEM == "UEFI" ]]; then
         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_UefiPartErrTitle" --msgbox "$_UefiPartErrBody" 0 0
         create_partitions
     fi
     
-    if [[ $NUMBER_PARTITIONS -eq 0 ]] && [[ $UEFI -eq 0 ]]; then
+    if [[ $NUMBER_PARTITIONS -eq 0 ]] && [[ $SYSTEM == "BIOS" ]]; then
         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_BiosPartErrTitle" --msgbox "$_BiosPartErrBody" 0 0	
         create_partitions
     fi
@@ -1053,7 +1050,7 @@ btrfs_mount_opts() {
     fi
     
     # Extra Step for VFAT UEFI Partition. This cannot be in an LVM container.
-    if [[ $UEFI -eq 1 ]]; then
+    if [[ $SYSTEM == "UEFI" ]]; then
     
        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_SelUefiTitle" --menu "$_SelUefiBody" 0 0 4 ${PARTITIONS} 2>${ANSWER} || config_base_menu  
        PARTITION=$(cat ${ANSWER})
@@ -1104,7 +1101,7 @@ btrfs_mount_opts() {
 	            check_for_error
 	            
                 # Don't give /boot as an example for UEFI systems!
-                if [[ $UEFI -eq 1 ]]; then
+                if [[ $SYSTEM == "UEFI" ]]; then
                    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ExtNameTitle $PARTITON " --inputbox "$_ExtNameBodyUefi" 0 0 "/" 2>${ANSWER} || config_base_menu
                 else
                    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ExtNameTitle $PARTITON " --inputbox "$_ExtNameBodyBios" 0 0 "/" 2>${ANSWER} || config_base_menu
@@ -1116,7 +1113,7 @@ btrfs_mount_opts() {
                       dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ExtErrTitle" --msgbox "$_ExtErrBody" 0 0
                       
                       # Don't give /boot as an example for UEFI systems!
-                      if [[ $UEFI -eq 1 ]]; then
+                      if [[ $SYSTEM == "UEFI" ]]; then
                          dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ExtNameTitle $PARTITON " --inputbox "$_ExtNameBodyUefi" 0 0 "/" 2>${ANSWER} || config_base_menu
                       else
                          dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "$_ExtNameTitle $PARTITON " --inputbox "$_ExtNameBodyBios" 0 0 "/" 2>${ANSWER} || config_base_menu
