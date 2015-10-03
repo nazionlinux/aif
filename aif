@@ -138,7 +138,7 @@ select_language() {
              CURR_LOCALE="el_GR.UTF-8"
              FONT="iso07u-16.psfu"       
              ;;
-        "7") source /aif-dev-master/danish.trans
+        "7") source /aif-master/danish.trans
              CURR_LOCALE="da_DK.UTF-8"
              ;;   
         "8") source /aif-master/hungarian.trans
