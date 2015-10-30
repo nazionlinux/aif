@@ -1909,14 +1909,15 @@ install_de_wm() {
     "10" $"MATE" \
     "11" $"MATE + Extras" \
     "12" $"Xfce" \
-    "13" $"Xfce + extras" \
-    "14" $"Awesome WM" \
-    "15" $"Fluxbox WM" \
-	"16" $"i3 WM" \
-    "17" $"Ice WM" \
-    "18" $"Openbox WM" \
-    "19" $"Pek WM" \
-    "20" $"WindowMaker WM" 2>${ANSWER}
+    "13" $"Xfce (minimal)" \
+    "14" $"Xfce + Extras" \
+    "15" $"Awesome WM" \
+    "16" $"Fluxbox WM" \
+    "17" $"i3 WM" \
+    "18" $"Ice WM" \
+    "19" $"Openbox WM" \
+    "20" $"Pek WM" \
+    "21" $"WindowMaker WM" 2>${ANSWER}
 
    case $(cat ${ANSWER}) in
         "1") # Cinnamon
@@ -1990,36 +1991,40 @@ install_de_wm() {
         "12") # Xfce
               clear
               pacstrap ${MOUNTPOINT} xfce4 polkit-gnome xterm 2>/tmp/.errlog
-             ;;            
-        "13") # Xfce + Extras
+             ;;
+        "13") # Xfce minimal
+              clear
+              pacstrap ${MOUNTPOINT} xfwm4 xfce4-panel xfce4-settings xfce4-session xfdesktop4 polkit-gnome xterm 2>/tmp/.errlog
+             ;;
+        "14") # Xfce + Extras
               clear
               pacstrap ${MOUNTPOINT} xfce4 xfce4-goodies polkit-gnome xterm 2>/tmp/.errlog
              ;;
-        "14") # Awesome
+        "15") # Awesome
               clear
               pacstrap ${MOUNTPOINT} awesome vicious polkit-gnome xterm 2>/tmp/.errlog
              ;;
-        "15") #Fluxbox
+        "16") #Fluxbox
               clear 
               pacstrap ${MOUNTPOINT} fluxbox fbnews polkit-gnome xterm 2>/tmp/.errlog
              ;; 
-        "16") #i3
+        "17") #i3
               clear
               pacstrap ${MOUNTPOINT} i3-wm i3lock i3status dmenu polkit-gnome xterm 2>/tmp/.errlog
              ;; 
-        "17") #IceWM
+        "18") #IceWM
               clear
               pacstrap ${MOUNTPOINT} icewm icewm-themes polkit-gnome xterm 2>/tmp/.errlog
              ;; 
-        "18") #Openbox
+        "19") #Openbox
               clear
               pacstrap ${MOUNTPOINT} openbox openbox-themes polkit-gnome xterm 2>/tmp/.errlog
              ;; 
-        "19") #PekWM
+        "20") #PekWM
               clear
               pacstrap ${MOUNTPOINT} pekwm pekwm-themes polkit-gnome xterm 2>/tmp/.errlog
              ;;
-        "20") #WindowMaker
+        "21") #WindowMaker
              clear
              pacstrap ${MOUNTPOINT} windowmaker polkit-gnome xterm 2>/tmp/.errlog
              ;;        
